@@ -1,0 +1,50 @@
+{
+  "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/services",
+      "destination": "/#services",
+      "permanent": false
+    },
+    {
+      "source": "/services/:slug*",
+      "destination": "/#services",
+      "permanent": false
+    },
+    {
+      "source": "/portfolio",
+      "destination": "/work",
+      "permanent": false
+    },
+    {
+      "source": "/portfolio/:slug*",
+      "destination": "/work",
+      "permanent": false
+    },
+    {
+      "source": "/our-story",
+      "destination": "/#story",
+      "permanent": false
+    },
+    {
+      "source": "/contact-us",
+      "destination": "/#contact",
+      "permanent": false
+    },
+    {
+      "source": "/contact",
+      "destination": "/#contact",
+      "permanent": false
+    },
+    {
+      "source": "/terms-and-conditions",
+      "destination": "/terms",
+      "permanent": false
+    },
+    {
+      "source": "/privacy",
+      "destination": "/privacy-policy",
+      "permanent": false
+    }
+  ]
+}
