@@ -197,3 +197,5 @@
   box.addEventListener("click", function(e){ if (e.target === box) box.close(); });
   box.addEventListener("close", function(){ media.innerHTML = ""; });
 })();
+/* Land on #branding etc. after the design images above it have loaded */
+(function(){ if (!location.hash) return; var t = document.querySelector(location.hash); if (!t) return; document.querySelectorAll(".mcard img").forEach(function(i){ i.loading = "eager"; }); window.addEventListener("load", function(){ t.scrollIntoView(); }); })();
