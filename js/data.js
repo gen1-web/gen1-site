@@ -94,5 +94,15 @@ window.BRANDING = [
     cover: "assets/branding/tazgo-01.jpg",
     images: ["assets/branding/tazgo-02.jpg", "assets/branding/tazgo-03.jpg", "assets/branding/tazgo-04.jpg", "assets/branding/tazgo-05.jpg", "assets/branding/tazgo-06.jpg", "assets/branding/tazgo-07.jpg", "assets/branding/tazgo-08.jpg", "assets/branding/tazgo-09.jpg", "assets/branding/tazgo-10.jpg", "assets/branding/tazgo-11.jpg", "assets/branding/tazgo-12.jpg", "assets/branding/tazgo-13.jpg"],
     thumbs: ["assets/branding/tazgo-02-sm.jpg", "assets/branding/tazgo-03-sm.jpg", "assets/branding/tazgo-04-sm.jpg", "assets/branding/tazgo-05-sm.jpg"]
+  },
+  {
+    title: "Discover Islam",
+    client: "Logo and colour system",
+    desc: "A bold D monogram with a green pointer at its heart, a sign of guidance and finding your way. We designed the logo in three gold finishes, with full colour palettes and reversed versions for green and gold backgrounds.",
+    colors: ["#4C735D", "#BAD9C8", "#F2F2F0", "#B26C29", "#CB892A", "#EBBC1E"],
+    tags: ["Logo", "Colour palette", "3 gold variants", "Brand applications"],
+    cover: "assets/branding/discover-islam-01.jpg",
+    images: ["assets/branding/discover-islam-02.jpg", "assets/branding/discover-islam-03.jpg", "assets/branding/discover-islam-04.jpg"],
+    thumbs: ["assets/branding/discover-islam-02.jpg", "assets/branding/discover-islam-03.jpg", "assets/branding/discover-islam-04.jpg"]
   }
 ];
