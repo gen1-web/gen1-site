@@ -49,7 +49,7 @@
     f.setAttribute("aria-label", "View " + d.title);
     f.style.transitionDelay = ((i % 4) * 70) + "ms";
     f.innerHTML = '<img src="' + DIR + d.src + '" alt="' + esc(d.title) + '" loading="lazy" decoding="async">' +
-      (d.cat ? '<span class="tag">' + esc(d.cat) + '</span>' : "") +
+      (d.cat ? '<span class="tag">' + esc(d.cat) + '</span>' : "") + (d.pages ? '<span class="pg">' + d.pages.length + (d.pages.length > 1 ? " boards" : " board") + '</span>' : "") +
       '<figcaption><b>' + esc(d.title) + '</b><span>' + esc(d.client) + '</span></figcaption>';
     mason.append(f); watch(f);
   });
@@ -171,6 +171,9 @@
       var v = document.createElement("video");
       v.src = RB + it.file; v.poster = RB + it.poster; v.controls = true; v.autoplay = true; v.playsInline = true;
       media.append(v); cap.innerHTML = "<b>" + esc(it.title) + "</b>" + esc(it.tag);
+    } else if (mode === "doc") {
+      var di = new Image(); di.src = DIR + it; di.alt = docItem.title + " " + (idx + 1); media.append(di);
+      cap.innerHTML = "<b>" + esc(docItem.title) + "</b>" + esc(docItem.client) + " &middot; " + (idx + 1) + " / " + list.length;
     } else {
       var img = new Image();
       img.src = mode === "design" ? DIR + it.src.replace(".jpg", "-lg.jpg") : it;
@@ -179,10 +182,11 @@
       cap.innerHTML = mode === "design" ? "<b>" + esc(it.title) + "</b>" + esc(it.client) : "<b>" + esc(B[bIdx].title) + "</b>" + (idx + 1) + " / " + list.length;
     }
   }
-  var bIdx = 0;
+  var bIdx = 0, docItem = null;
   function openBox(m, i, start){
     mode = m;
-    if (m === "design") { list = visible; idx = Math.max(0, list.indexOf(D[i])); }
+    if (m === "design" && D[i].pages) { mode = "doc"; docItem = D[i]; list = D[i].pages; idx = 0; }
+    else if (m === "design") { list = visible; idx = Math.max(0, list.indexOf(D[i])); }
     else if (m === "reel") { list = R; idx = i; }
     else { bIdx = i; list = [B[i].cover].concat(B[i].images || []); idx = start || 0; }
     render(); if (!box.open) box.showModal();
@@ -206,3 +210,5 @@
   new MutationObserver(function(ms){ ms.forEach(function(m){ m.addedNodes.forEach(function(n){ if (n.nodeType !== 1) return; if (n.tagName === "VIDEO") lock(n); else if (n.querySelectorAll) n.querySelectorAll("video").forEach(lock); }); }); }).observe(document.body, { childList: true, subtree: true });
   document.addEventListener("contextmenu", function(e){ if (e.target.closest && e.target.closest("video,.phone,.rcard,.lb-media")) e.preventDefault(); }, true);
 })();
+/* Print & Publications: page-count badge */
+(function(){ var s = document.createElement("style"); s.textContent = ".mcard .pg{position:absolute;right:12px;top:12px;padding:.28rem .7rem;border-radius:999px;background:rgba(204,0,1,.92);color:#fff;font-size:.7rem;font-weight:600;box-shadow:0 6px 14px rgba(0,0,0,.25)}"; document.head.appendChild(s); })();
