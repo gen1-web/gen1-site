@@ -437,3 +437,6 @@ section{position:relative}
 .hero-title{letter-spacing:-.04em;line-height:.96}
 .whero-title{letter-spacing:-.05em;line-height:.9}
 .sec-title,.cta-title,.svc h3,.bcase-info h3,body .legal-hero h1{letter-spacing:-.035em}
+/* Protect artwork: no right-click "Save image", no drag, no long-press save */
+img{-webkit-user-drag:none;user-drag:none;-webkit-touch-callout:none;user-select:none}
+.dcard img,.mcard img,.col img,.lb-media img,.bcase-cover img,.bthumb img,.site-view img,.rcard-frame img,.phone-screen img,.story-photo img{pointer-events:none}
