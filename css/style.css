@@ -432,3 +432,8 @@ section{position:relative}
 .bnext span{color:var(--grey-d);flex:1;min-width:200px}
 .lb-media img{max-width:min(94vw,1400px)}
 @media (max-width:900px){.bcase{grid-template-columns:1fr}}
+/* Headings: Poppins Bold */
+.hero-title,.whero-title,.sec-title,.cta-title,.svc h3,.bcase-info h3,.mnav a,body .legal-hero h1,.hero-stats strong,.whero-stats strong,.step-n,.ticker span,.bnext b{font-weight:700}
+.hero-title{letter-spacing:-.04em;line-height:.96}
+.whero-title{letter-spacing:-.05em;line-height:.9}
+.sec-title,.cta-title,.svc h3,.bcase-info h3,body .legal-hero h1{letter-spacing:-.035em}
