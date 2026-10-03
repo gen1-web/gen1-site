@@ -484,3 +484,12 @@ img{-webkit-user-drag:none;user-drag:none;-webkit-touch-callout:none;user-select
 @keyframes orbs{0%{transform:translate(0,0)}50%{transform:translate(6%,-5%)}100%{transform:translate(-5%,4%)}}
 @keyframes pane{0%{translate:0 0;rotate:0deg}100%{translate:0 -14px;rotate:2deg}}
 @media (max-width:1000px){.hero::after{left:10%;top:12%;width:70vw;height:42vh}.hero-glow::before{display:none}}
+/* Hero v4: subtler glass kept behind everything, softer light, dotted patterns */
+.wall{z-index:1}
+.hero-glow{background:radial-gradient(circle 220px at 38% 40%,rgba(220,0,10,.55),rgba(204,0,1,.18) 50%,transparent 72%),radial-gradient(circle 170px at 58% 74%,rgba(255,40,20,.4),rgba(150,0,0,.15) 50%,transparent 72%),radial-gradient(circle 130px at 22% 84%,rgba(204,0,1,.35),transparent 70%)}
+.hero::after{background:linear-gradient(140deg,rgba(255,255,255,.045),rgba(255,255,255,.01) 40%,rgba(255,255,255,.005) 65%,rgba(255,255,255,.025));border-color:rgba(255,255,255,.06);box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 30px 80px rgba(0,0,0,.4);-webkit-backdrop-filter:blur(26px) saturate(140%);backdrop-filter:blur(26px) saturate(140%)}
+.hero-glow::before{background:linear-gradient(135deg,rgba(255,255,255,.05),rgba(255,255,255,.01) 50%,rgba(255,255,255,.03));border-color:rgba(255,255,255,.06);box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
+.hero::before{background:var(--grain),radial-gradient(rgba(255,255,255,.16) 1.2px,transparent 1.7px) 0 0/26px 26px;opacity:.6;-webkit-mask-image:radial-gradient(ellipse 55% 60% at 12% 30%,#000 15%,transparent 70%);mask-image:radial-gradient(ellipse 55% 60% at 12% 30%,#000 15%,transparent 70%)}
+.hero-glow::after{display:block;content:"";position:absolute;inset:0;background:radial-gradient(rgba(204,0,1,.55) 1.6px,transparent 2.2px) 0 0/18px 18px;-webkit-mask-image:radial-gradient(circle at 46% 92%,#000,transparent 28%);mask-image:radial-gradient(circle at 46% 92%,#000,transparent 28%);animation:none}
+.hero-stats::before{content:"";position:absolute;right:0;top:-1px;width:120px;height:1px;background:repeating-linear-gradient(90deg,var(--red) 0 6px,transparent 6px 12px)}
+.hero-stats{position:relative}
