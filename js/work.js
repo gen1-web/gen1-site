@@ -54,6 +54,7 @@
     mason.append(f); watch(f);
   });
   function filter(c){
+    mason.classList.toggle("print-mode", c === "Print & Publications");
     var cards = $$(".mcard", mason);
     cards.forEach(function(el){ el.classList.remove("in"); });
     setTimeout(function(){
@@ -212,3 +213,5 @@
 })();
 /* Print & Publications: page-count badge */
 (function(){ var s = document.createElement("style"); s.textContent = ".mcard .pg{position:absolute;right:12px;top:12px;padding:.28rem .7rem;border-radius:999px;background:rgba(204,0,1,.92);color:#fff;font-size:.7rem;font-weight:600;box-shadow:0 6px 14px rgba(0,0,0,.25)}"; document.head.appendChild(s); })();
+/* Print & Publications: big board cards when that filter is on */
+(function(){ var s = document.createElement("style"); s.textContent = ".masonry.print-mode{columns:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,580px),1fr));gap:28px}.masonry.print-mode .mcard{margin:0;border-radius:20px}.masonry.print-mode .mcard img{width:100%;height:auto}.masonry.print-mode .mcard figcaption{transform:none;padding:3rem 1.4rem 1.1rem}.masonry.print-mode .mcard figcaption b{font-size:1.15rem}.masonry.print-mode .mcard .pg{font-size:.8rem;padding:.4rem .9rem}"; document.head.appendChild(s); })();
