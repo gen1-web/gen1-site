@@ -74,11 +74,11 @@ window.REELS = [
   { title: "Allah is with me", tag: "Reminder", file: "allah-is-with-me.mp4", poster: "allah-is-with-me.jpg" }
 ];
 
-/* Websites: image in assets/misc, url optional */
+/* Websites: image in assets/misc, url optional. Add images: [...] for extra screens that slide automatically. */
 window.WEBSITES = [
+  { title: "Amsha & Mohammad Funeral Service", type: "24/7 Muslim funeral service in West London", image: "assets/misc/web-amsha-1.jpg", images: ["assets/misc/web-amsha-2.jpg", "assets/misc/web-amsha-3.jpg", "assets/misc/web-amsha-4.jpg"], url: "https://www.amshamohammed.org.uk" },
   { title: "Dar el Mecca Travel", type: "Hajj & Umrah travel website", image: "assets/misc/web-darelmecca.jpg", url: "" },
-  { title: "Umrah booking platform", type: "Booking website", image: "", url: "" },
-  { title: "Funeral services website", type: "Service website", image: "", url: "" }
+  { title: "Umrah booking platform", type: "Booking website", image: "", url: "" }
 ];
 
 /* Branding projects for the Work page. Put images in assets/branding.
