@@ -225,3 +225,10 @@
   box.addEventListener("click", function(e){ if (e.target === box) box.close(); });
   box.addEventListener("close", function(){ media.innerHTML = ""; });
 })();
+/* Protect videos: no right-click save, no download button, no picture-in-picture */
+(function(){
+  function lock(v){ v.setAttribute("controlsList", "nodownload noremoteplayback noplaybackrate"); v.setAttribute("disablePictureInPicture", ""); v.disablePictureInPicture = true; }
+  document.querySelectorAll("video").forEach(lock);
+  new MutationObserver(function(ms){ ms.forEach(function(m){ m.addedNodes.forEach(function(n){ if (n.nodeType !== 1) return; if (n.tagName === "VIDEO") lock(n); else if (n.querySelectorAll) n.querySelectorAll("video").forEach(lock); }); }); }).observe(document.body, { childList: true, subtree: true });
+  document.addEventListener("contextmenu", function(e){ if (e.target.closest && e.target.closest("video,.phone,.rcard,.lb-media")) e.preventDefault(); }, true);
+})();
