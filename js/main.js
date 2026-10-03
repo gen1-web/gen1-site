@@ -1,6 +1,6 @@
 /* GEN1 SOLUTIONS - homepage interactions */
 (function(){
-  var D = window.DESIGNS || [], R = window.REELS || [], W = window.WEBSITES || [], S = window.SITE || {};
+  var D = (window.DESIGNS || []).filter(function(d){ return !d.pages; }), R = window.REELS || [], W = window.WEBSITES || [], S = window.SITE || {};
   var RB = window.REELS_BASE || "";
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
