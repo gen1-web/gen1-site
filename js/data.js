@@ -14,6 +14,13 @@ window.SITE = {
    with -lg at the end of the name. cat = the filter it appears under on the Work page.
    Order here = order on the site, so put your best work first. */
 window.DESIGNS = [
+  { src: "print-bts-1.jpg", title: "Back to School appeal", client: "HHUGS", cat: "Print & Publications", pages: ["print-bts-1.jpg", "print-bts-2.jpg"] },
+  { src: "print-les-1.jpg", title: "Year 1 Lesson Plans", client: "Discover Islam", cat: "Print & Publications", pages: ["print-les-1.jpg", "print-les-2.jpg"] },
+  { src: "print-dome-1.jpg", title: "Umrah Seerah Tour posters", client: "Dome Tours", cat: "Print & Publications", pages: ["print-dome-1.jpg", "print-dome-2.jpg", "print-dome-3.jpg"] },
+  { src: "print-eid-1.jpg", title: "Eid Bazaar email", client: "Monos Markets", cat: "Print & Publications", pages: ["print-eid-1.jpg"] },
+  { src: "print-news-1.jpg", title: "November 2023 Newsletter", client: "Yaseen Youth Tours", cat: "Print & Publications", pages: ["print-news-1.jpg", "print-news-2.jpg", "print-news-3.jpg", "print-news-4.jpg"] },
+  { src: "print-wo-1.jpg", title: "Company Profile", client: "White Olivez", cat: "Print & Publications", pages: ["print-wo-1.jpg", "print-wo-2.jpg", "print-wo-3.jpg"] },
+  { src: "print-yya-1.jpg", title: "Academy Prospectus", client: "Yaseen Youth Academy", cat: "Print & Publications", pages: ["print-yya-1.jpg", "print-yya-2.jpg", "print-yya-3.jpg", "print-yya-4.jpg", "print-yya-5.jpg", "print-yya-6.jpg", "print-yya-7.jpg", "print-yya-8.jpg", "print-yya-9.jpg", "print-yya-10.jpg"] },
   { src: "d41.jpg", title: "Entrepreneurship in Real Life", client: "Guided & Co", cat: "Talks & Events" },
   { src: "d42.jpg", title: "April Half-Term Umrah", client: "Hasan Travel", cat: "Umrah & Travel" },
   { src: "d50.jpg", title: "Annual Arafah Youth Iftar", client: "Yaseen Youth Tours", cat: "Ramadan & Eid" },
