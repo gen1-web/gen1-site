@@ -1,0 +1,19 @@
+/* Hero stats: rolling odometer numbers + country flags */
+.hero-stats{flex-wrap:wrap;gap:1.4rem 2.4rem}
+.hero-stats .odo{display:flex;align-items:flex-start;height:1em;line-height:1;overflow:hidden;letter-spacing:0}
+.hero-stats .odo span{font-size:inherit;color:inherit}
+.hero-stats .odo::after{display:inline-block;transform:scale(0) rotate(-90deg);transition:transform .6s cubic-bezier(.34,1.8,.5,1) var(--pd,2s)}
+.hero-stats .odo.done::after{transform:none}
+.dg{display:inline-block;height:1em;overflow:hidden}
+.dg i{display:flex;flex-direction:column;font-style:normal;transform:translateY(0);transition:transform 2.4s cubic-bezier(.16,1,.3,1)}
+.dg i b{display:block;height:1em;font-weight:inherit;text-align:center}
+.sep{display:inline-block;width:.28em}
+.hero-stats div:hover .odo{text-shadow:0 0 24px rgba(204,0,1,.7)}
+.flags{display:flex;flex-wrap:wrap;align-items:center;gap:.7rem;margin-top:1.6rem}
+.flag{position:relative;width:38px;height:38px;border-radius:50%;background-size:cover;background-position:center;box-shadow:0 0 0 2px rgba(255,255,255,.18),0 8px 18px rgba(0,0,0,.45);opacity:0;transform:translateY(16px) scale(.4);transition:box-shadow .3s}
+.loaded .flag{animation:flagIn .7s cubic-bezier(.34,1.6,.5,1) forwards,flagBob 3.2s ease-in-out infinite alternate;animation-delay:calc(1.8s + var(--i) * 90ms),calc(2.6s + var(--i) * 250ms)}
+.flag:hover{box-shadow:0 0 0 2px var(--red),0 10px 24px rgba(204,0,1,.45)}
+.flag::after{content:attr(data-name);position:absolute;left:50%;bottom:calc(100% + 10px);padding:.3rem .7rem;border-radius:999px;background:#fff;color:#111;font-size:.72rem;font-weight:600;white-space:nowrap;opacity:0;transform:translate(-50%,6px);transition:all .25s;pointer-events:none}
+.flag:hover::after{opacity:1;transform:translate(-50%,0)}
+@keyframes flagIn{to{opacity:1;transform:none}}
+@keyframes flagBob{from{translate:0 0}to{translate:0 -5px}}
