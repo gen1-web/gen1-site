@@ -199,3 +199,10 @@
 })();
 /* Land on #branding etc. after the design images above it have loaded */
 (function(){ if (!location.hash) return; var t = document.querySelector(location.hash); if (!t) return; document.querySelectorAll(".mcard img").forEach(function(i){ i.loading = "eager"; }); window.addEventListener("load", function(){ t.scrollIntoView(); }); })();
+/* Protect videos: no right-click save, no download button, no picture-in-picture */
+(function(){
+  function lock(v){ v.setAttribute("controlsList", "nodownload noremoteplayback noplaybackrate"); v.setAttribute("disablePictureInPicture", ""); v.disablePictureInPicture = true; }
+  document.querySelectorAll("video").forEach(lock);
+  new MutationObserver(function(ms){ ms.forEach(function(m){ m.addedNodes.forEach(function(n){ if (n.nodeType !== 1) return; if (n.tagName === "VIDEO") lock(n); else if (n.querySelectorAll) n.querySelectorAll("video").forEach(lock); }); }); }).observe(document.body, { childList: true, subtree: true });
+  document.addEventListener("contextmenu", function(e){ if (e.target.closest && e.target.closest("video,.phone,.rcard,.lb-media")) e.preventDefault(); }, true);
+})();
