@@ -493,3 +493,6 @@ img{-webkit-user-drag:none;user-drag:none;-webkit-touch-callout:none;user-select
 .hero-glow::after{display:block;content:"";position:absolute;inset:0;background:radial-gradient(rgba(204,0,1,.55) 1.6px,transparent 2.2px) 0 0/18px 18px;-webkit-mask-image:radial-gradient(circle at 46% 92%,#000,transparent 28%);mask-image:radial-gradient(circle at 46% 92%,#000,transparent 28%);animation:none}
 .hero-stats::before{content:"";position:absolute;right:0;top:-1px;width:120px;height:1px;background:repeating-linear-gradient(90deg,var(--red) 0 6px,transparent 6px 12px)}
 .hero-stats{position:relative}
+/* Hero v5: poster wall runs the full height of the dark area; red dots sit behind the posters */
+@media (min-width:1001px){.wall{height:auto;margin-bottom:-4rem;-webkit-mask-image:linear-gradient(180deg,transparent,#000 12%,#000 90%,transparent),linear-gradient(90deg,transparent 2%,rgba(0,0,0,.35) 14%,#000 34%);mask-image:linear-gradient(180deg,transparent,#000 12%,#000 90%,transparent),linear-gradient(90deg,transparent 2%,rgba(0,0,0,.35) 14%,#000 34%)}.wall-tilt{inset:-30% -30% -40% 0}}
+.hero-glow::after{-webkit-mask-image:radial-gradient(ellipse 34% 48% at 76% 52%,#000 30%,transparent 100%);mask-image:radial-gradient(ellipse 34% 48% at 76% 52%,#000 30%,transparent 100%);opacity:.9}
