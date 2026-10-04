@@ -74,11 +74,17 @@ window.DESIGNS = [
 ];
 
 /* Reels: hosted on your reels site, so new reels only need uploading once */
-window.REELS_BASE = "https://gen1solutions1.github.io/";
+window.REELS_BASE = "";
 window.REELS = [
-  { title: "The masjid is open", tag: "Promo", file: "aic-masjid-is-open.mp4", poster: "aic-masjid-is-open.jpg" },
-  { title: "Hope", tag: "Reminder", file: "hope.mp4", poster: "hope.jpg" },
-  { title: "Allah is with me", tag: "Reminder", file: "allah-is-with-me.mp4", poster: "allah-is-with-me.jpg" }
+  { title: "Ibtidah client testimonial", tag: "Testimonial", file: "assets/ibtidah-testimonial.mp4", poster: "assets/ibtidah-testimonial.jpg" },
+  { title: "The masjid is open", tag: "Promo", file: "https://gen1solutions1.github.io/aic-masjid-is-open.mp4", poster: "https://gen1solutions1.github.io/aic-masjid-is-open.jpg" },
+  { title: "Hope", tag: "Reminder", file: "https://gen1solutions1.github.io/hope.mp4", poster: "https://gen1solutions1.github.io/hope.jpg" },
+  { title: "Allah is with me", tag: "Reminder", file: "https://gen1solutions1.github.io/allah-is-with-me.mp4", poster: "https://gen1solutions1.github.io/allah-is-with-me.jpg" }
+];
+
+/* Cinema Cuts: Full HD (16:9) films and promos. Upload the .mp4 and a .jpg cover, then add a line here. */
+window.FILMS = [
+  { title: "Al Quran Institute promo", tag: "Brand film", length: "1:46", file: "al-quran-institute-promo.mp4", poster: "al-quran-institute-promo.jpg" }
 ];
 
 /* Websites: image in assets/misc, url optional. Add images: [...] for extra screens that slide automatically. */
