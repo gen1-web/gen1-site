@@ -4,7 +4,7 @@
 
 window.SITE = {
   whatsapp: "923054559888",
-  email: "abdulaleem@gen1sol.com",
+  email: "contact.gen1solutions@gmail.com",
   instagram: "https://www.instagram.com/gen1solutions",
   linkedin: "https://www.linkedin.com/company/gen1solutions",
   facebook: "https://www.facebook.com/gen1solutions"
