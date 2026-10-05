@@ -76,6 +76,8 @@ window.DESIGNS = [
 /* Reels: hosted on your reels site, so new reels only need uploading once */
 window.REELS_BASE = "";
 window.REELS = [
+  { title: "Happy Club Rides app launch", tag: "Promo", file: "assets/happy-club-rides.mp4", poster: "assets/happy-club-rides.jpg" },
+  { title: "Zaimah Charity: year in review", tag: "Muslim Charity", file: "assets/zaimah-charity-highlights.mp4", poster: "assets/zaimah-charity-highlights.jpg" },
   { title: "Ibtidah client testimonial", tag: "Testimonial", file: "assets/ibtidah-testimonial.mp4", poster: "assets/ibtidah-testimonial.jpg" },
   { title: "The masjid is open", tag: "Promo", file: "https://gen1solutions1.github.io/aic-masjid-is-open.mp4", poster: "https://gen1solutions1.github.io/aic-masjid-is-open.jpg" },
   { title: "Hope", tag: "Reminder", file: "https://gen1solutions1.github.io/hope.mp4", poster: "https://gen1solutions1.github.io/hope.jpg" },
