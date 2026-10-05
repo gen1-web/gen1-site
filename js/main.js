@@ -104,7 +104,7 @@
   /* ---------- Videos: phone mockups ---------- */
   var phones = $("#phones");
   var playIcon = '<span class="pbtn" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span>';
-  R.slice(0, 3).forEach(function(r, i){
+  R.slice(0, 9).forEach(function(r, i){
     var p = document.createElement("button");
     p.className = "phone reveal";
     p.setAttribute("aria-label", "Play " + r.title);
