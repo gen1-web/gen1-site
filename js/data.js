@@ -91,7 +91,8 @@ window.FILMS = [
 
 /* Websites: image in assets/misc, url optional. Add images: [...] for extra screens that slide automatically. */
 window.WEBSITES = [
-  { title: "Amsha & Mohammad Funeral Service", type: "24/7 Muslim funeral service in West London", image: "assets/misc/web-amsha-1.jpg", images: ["assets/misc/web-amsha-2.jpg", "assets/misc/web-amsha-3.jpg", "assets/misc/web-amsha-4.jpg"], url: "https://www.amshamohammed.org.uk" },
+  { title: "Amsha & Mohammad Funeral Service", type: "24/7 Muslim funeral service in West London", url: "https://www.amshamohammed.org.uk", mock: { desktop: ["assets/mock-amsha-d1.jpg", "assets/mock-amsha-d2.jpg", "assets/mock-amsha-d3.jpg", "assets/mock-amsha-d4.jpg"], bg: "#0f2e27", bg2: "#1d4a3e", accent: "#d4a43a" } },
+  { title: "Adah", type: "Focus and daily habits platform for Muslims", url: "https://gen1-web.github.io/adah-website/", mock: { desktop: ["assets/mock-adah-d1.jpg", "assets/mock-adah-d2.jpg", "assets/mock-adah-d3.jpg", "assets/mock-adah-d4.jpg"], mobile: ["assets/mock-adah-m1.jpg", "assets/mock-adah-m2.jpg", "assets/mock-adah-m3.jpg"], bg: "#21160f", bg2: "#5a4030", accent: "#e8c9a6" } },
   { title: "Dar el Mecca Travel", type: "Hajj & Umrah travel website", image: "assets/misc/web-darelmecca.jpg", url: "" },
   { title: "Umrah booking platform", type: "Booking website", image: "", url: "" }
 ];
