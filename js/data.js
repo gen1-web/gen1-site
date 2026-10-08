@@ -93,6 +93,7 @@ window.FILMS = [
 window.WEBSITES = [
   { title: "Amsha & Mohammad Funeral Service", type: "24/7 Muslim funeral service in West London", url: "https://www.amshamohammed.org.uk", mock: { desktop: ["assets/mock-amsha-d1.jpg", "assets/mock-amsha-d2.jpg", "assets/mock-amsha-d3.jpg", "assets/mock-amsha-d4.jpg"], bg: "#0f2e27", bg2: "#1d4a3e", accent: "#d4a43a" } },
   { title: "Adah", type: "Focus and daily habits platform for Muslims", url: "https://gen1-web.github.io/adah-website/", mock: { desktop: ["assets/mock-adah-d1.jpg", "assets/mock-adah-d2.jpg", "assets/mock-adah-d3.jpg", "assets/mock-adah-d4.jpg"], mobile: ["assets/mock-adah-m1.jpg", "assets/mock-adah-m2.jpg", "assets/mock-adah-m3.jpg"], bg: "#21160f", bg2: "#5a4030", accent: "#e8c9a6" } },
+  { title: "Discover Islam", type: "Islamic education and outreach, UK", url: "https://discoverislam.co.uk/", mock: { desktop: ["assets/mock-di-d1.jpg", "assets/mock-di-d2.jpg", "assets/mock-di-d3.jpg", "assets/mock-di-d4.jpg"], bg: "#14241c", bg2: "#4C735D", accent: "#cb892a" } },
   { title: "Dar el Mecca Travel", type: "Hajj & Umrah travel website", image: "assets/misc/web-darelmecca.jpg", url: "" },
   { title: "Umrah booking platform", type: "Booking website", image: "", url: "" }
 ];
