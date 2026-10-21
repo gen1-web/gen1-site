@@ -76,6 +76,8 @@ window.DESIGNS = [
 /* Reels: hosted on your reels site, so new reels only need uploading once */
 window.REELS_BASE = "";
 window.REELS = [
+  { title: "Naima Roberts reel", tag: "Reminder", file: "assets/Naima-roberts-reel.mp4", poster: "assets/Naima roberts reel.jpg" },
+  { title: "Sheikh Omar Suleiman: Talking Before Marriage", tag: "Reminder", file: "assets/Sh.Omar Suleiman Reminder.mp4", poster: "assets/Sh.Omar Suleiman Reminder.jpg" },
   { title: "Happy Club Rides app launch", tag: "Promo", file: "assets/happy-club-rides.mp4", poster: "assets/happy-club-rides.jpg" },
   { title: "Zaimah Charity: year in review", tag: "Muslim Charity", file: "assets/zaimah-charity-highlights.mp4", poster: "assets/zaimah-charity-highlights.jpg" },
   { title: "Ibtidah client testimonial", tag: "Testimonial", file: "assets/ibtidah-testimonial.mp4", poster: "assets/ibtidah-testimonial.jpg" },
