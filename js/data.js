@@ -125,3 +125,23 @@ window.BRANDING = [
     thumbs: ["assets/branding/discover-islam-02.jpg", "assets/branding/discover-islam-03.jpg", "assets/branding/discover-islam-04.jpg"]
   }
 ];
+
+
+/* Design carousel: the 15 portrait slides (3:4) shown in the swipe carousel on the homepage and Work page. Order here = order on site. */
+window.GCAROUSEL = [
+  { src: "assets/gd-01.jpg", title: "Graphics Design" },
+  { src: "assets/gd-02.jpg", title: "Social Media Designs" },
+  { src: "assets/gd-03.jpg", title: "Carousels" },
+  { src: "assets/gd-04.jpg", title: "YouTube Thumbnails" },
+  { src: "assets/gd-05.jpg", title: "Reel Covers" },
+  { src: "assets/gd-06.jpg", title: "Event Flyers" },
+  { src: "assets/gd-07.jpg", title: "Brochures" },
+  { src: "assets/gd-08.jpg", title: "Flex Design" },
+  { src: "assets/gd-09.jpg", title: "Standees and Rollup Banners" },
+  { src: "assets/gd-10.jpg", title: "Logo and Branding" },
+  { src: "assets/gd-11.jpg", title: "Book Covers" },
+  { src: "assets/gd-12.jpg", title: "Islamic Reminder Posts" },
+  { src: "assets/gd-13.jpg", title: "PDF Designs" },
+  { src: "assets/gd-14.jpg", title: "Social Media Ads" },
+  { src: "assets/gd-15.jpg", title: "Let's bring your brand to life" }
+];
