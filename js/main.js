@@ -75,7 +75,15 @@
              '<figcaption><b>' + esc(d.title) + '</b><span>' + esc(d.client) + '</span></figcaption></figure>';
     }).join("");
     track.innerHTML = html + html + html;
-    var st = { track: track, x: 0, base: parseFloat(row.getAttribute("data-speed")) || .5, hover: false, w: 0 };
+    var st = { track: track, x: 0, base: parseFloat(row.getAttribute("data-speed")) || .5, hover: false, w: 0, nudge: 0 };
+    ["prev","next"].forEach(function(dir){
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "row-arrow row-arrow-" + dir;
+      b.setAttribute("aria-label", dir === "prev" ? "Scroll designs left" : "Scroll designs right");
+      b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + (dir === "prev" ? "M20 12H4M10 5l-7 7 7 7" : "M4 12h16M14 5l7 7-7 7") + '"/></svg>';
+      b.addEventListener("click", function(e){ e.stopPropagation(); st.nudge += (dir === "prev" ? 1 : -1) * Math.min(560, row.clientWidth * .6); });
+      row.appendChild(b);
+    });
     row.addEventListener("mouseenter", function(){ st.hover = true; });
     row.addEventListener("mouseleave", function(){ st.hover = false; });
     return st;
@@ -92,14 +100,15 @@
       var boost = Math.max(-18, Math.min(18, vel * .35));
       var speed = st.hover ? 0 : (st.base + boost * Math.sign(st.base || 1));
       st.x -= speed;
-      if (st.x <= -st.w * 2) st.x += st.w;
-      if (st.x > 0) st.x -= st.w;
+      if (st.nudge) { var step = st.nudge * .14; if (Math.abs(st.nudge) < 1) { step = st.nudge; } st.x += step; st.nudge -= step; }
+      while (st.x <= -st.w * 2) st.x += st.w;
+      while (st.x > 0) st.x -= st.w;
       st.track.style.transform = "translate3d(" + st.x.toFixed(2) + "px,0,0)";
     });
     requestAnimationFrame(loop);
   }
   if (!reduce) requestAnimationFrame(loop);
-  else rowState.forEach(function(st){ st.track.parentNode.style.overflowX = "auto"; });
+  else rowState.forEach(function(st){ st.track.parentNode.style.overflowX = "auto"; var a = st.track.parentNode.querySelectorAll(".row-arrow"); for (var i = 0; i < a.length; i++) a[i].style.display = "none"; });
 
   /* ---------- Videos: phone mockups ---------- */
   var phones = $("#phones");
