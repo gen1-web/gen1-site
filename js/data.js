@@ -14,6 +14,12 @@ window.SITE = {
    with -lg at the end of the name. cat = the filter it appears under on the Work page.
    Order here = order on the site, so put your best work first. */
 window.DESIGNS = [
+  { src: "d51.jpg", title: "New Name. Same Values.", client: "Be The Mercy", cat: "Campaigns", feat: true },
+  { src: "d52.jpg", title: "Feed the Fasting: One Donation, Five Nations", client: "Be The Mercy", cat: "Campaigns", feat: true },
+  { src: "d53.jpg", title: "We Are Now Be The Mercy", client: "Be The Mercy", cat: "Campaigns", feat: true },
+  { src: "d54.jpg", title: "Courage Is Enduring Hunger", client: "Be The Mercy", cat: "Campaigns", feat: true },
+  { src: "d55.jpg", title: "Their Courage. Our Duty.", client: "Be The Mercy", cat: "Campaigns", feat: true },
+  { src: "d56.jpg", title: "Convoy of Hope: Egypt to Gaza", client: "Alkhidmat UK", cat: "Campaigns", feat: true },
   { src: "print-bts-1.jpg", title: "Back to School appeal", client: "HHUGS", cat: "Print & Publications", pages: ["print-bts-1.jpg", "print-bts-2.jpg"] },
   { src: "print-les-1.jpg", title: "Year 1 Lesson Plans", client: "Discover Islam", cat: "Print & Publications", pages: ["print-les-1.jpg", "print-les-2.jpg"] },
   { src: "print-dome-1.jpg", title: "Umrah Seerah Tour posters", client: "Dome Tours", cat: "Print & Publications", pages: ["print-dome-1.jpg", "print-dome-2.jpg", "print-dome-3.jpg"] },
