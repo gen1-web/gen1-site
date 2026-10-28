@@ -112,6 +112,20 @@
     show(i); box.showModal();
   });
 
+  /* Autoplay on the dedicated Designs page: moves left to right, loops, pauses on interaction */
+  if (document.body.classList.contains("page-designs") && !reduce) {
+    var timer = 0, hold = false, seen = true;
+    var tick = function(){ if (hold || !seen || document.hidden || box && box.open) return; go(active >= els.length - 1 ? 0 : active + 1); };
+    var start = function(){ if (!timer) timer = setInterval(tick, 2800); };
+    ["pointerdown", "touchstart", "focusin", "keydown"].forEach(function(e){ mount.addEventListener(e, function(){ hold = true; }, { passive: true }); });
+    ["mouseenter"].forEach(function(e){ mount.addEventListener(e, function(){ hold = true; }); });
+    mount.addEventListener("mouseleave", function(){ hold = false; });
+    mount.addEventListener("focusout", function(){ hold = false; });
+    mount.addEventListener("touchend", function(){ setTimeout(function(){ hold = false; }, 4000); }, { passive: true });
+    if ("IntersectionObserver" in window) new IntersectionObserver(function(es){ seen = es[0].isIntersecting; }, { threshold: .25 }).observe(mount);
+    start();
+  }
+
   /* Start on the first slide, centred */
   function init(){ go(0, true); update(); }
   if (document.readyState === "complete") init(); else window.addEventListener("load", init);
