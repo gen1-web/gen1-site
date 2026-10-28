@@ -568,3 +568,22 @@ img{-webkit-user-drag:none;user-drag:none;-webkit-touch-callout:none;user-select
 /* Hero: matt black, no textures */
 .hero{background:#0a0a0a}
 .hero-glow,.hero::before,.hero::after{display:none!important}
+
+/* Designs page: design icons, latest campaigns grid */
+.ico3d>svg{position:absolute;left:50%;top:54%;width:48%;height:48%;translate:-50% -50%;fill:none;stroke:var(--red);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;z-index:1}
+.ico3d.white>svg{stroke:#111}
+.page-designs .ico3d::after{display:none}
+.whero-icons{position:absolute;inset:0;pointer-events:none}
+@media (max-width:700px){.whero-icons .ico3d{opacity:.55;--s:56px!important}}
+.dgrid{max-width:1280px;margin:0 auto;padding:0 var(--pad);display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:clamp(1rem,2vw,1.6rem)}
+.dcard{position:relative;display:block;padding:0;border:0;background:#111;border-radius:20px;overflow:hidden;cursor:pointer;color:#fff;text-align:left;aspect-ratio:4/5;box-shadow:0 20px 50px rgba(0,0,0,.45);transition:transform .5s cubic-bezier(.16,1,.3,1),box-shadow .4s}
+.dcard img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.16,1,.3,1)}
+.dcard:hover{transform:translateY(-8px);box-shadow:0 30px 70px rgba(204,0,1,.35)}
+.dcard:hover img{transform:scale(1.05)}
+.dcard:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.dcard-cap{position:absolute;left:0;right:0;bottom:0;padding:2.6rem 1.1rem 1rem;background:linear-gradient(transparent,rgba(0,0,0,.82));display:flex;flex-direction:column;gap:.15rem;transform:translateY(40%);opacity:0;transition:transform .45s cubic-bezier(.16,1,.3,1),opacity .35s}
+.dcard-cap b{font-size:1rem;font-weight:700;line-height:1.2}
+.dcard-cap i{font-style:normal;font-size:.8rem;color:#cfcfcf}
+.dcard:hover .dcard-cap,.dcard:focus-visible .dcard-cap{transform:none;opacity:1}
+@media (hover:none){.dcard-cap{transform:none;opacity:1}}
+.dgal .portfolio-cta{max-width:1280px;margin:clamp(1.6rem,3vw,2.4rem) auto 0;padding:0 var(--pad);text-align:center}
