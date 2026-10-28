@@ -1,6 +1,6 @@
 /* GEN1 SOLUTIONS - Videos page. Data: REELS and FILMS in data.js (add a line there to add a video). */
 (function(){
-  var R = window.REELS || [], F = window.FILMS || [], S = window.SITE || {}, RB = window.REELS_BASE || "";
+  var R = window.REELS || [], F = window.FILMS || [], PR = window.PROMOS || [], S = window.SITE || {}, RB = window.REELS_BASE || "";
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   var $ = function(s, c){ return (c || document).querySelector(s); };
@@ -94,6 +94,17 @@
     fg.append(el); watch(el);
   });
   if (!F.length) $("#films").style.display = "none";
+
+  /* ---------- Promos ---------- */
+  var pg = $("#promoGrid"), promos = PR.map(function(f){ return { title: f.title, tag: (f.tag || "Promo") + (f.length ? " · " + f.length : ""), file: f.file, poster: f.poster }; });
+  PR.forEach(function(f, i){
+    var el = document.createElement("button");
+    el.type = "button"; el.className = "vfilm reveal" + (f.portrait ? " is-portrait" : ""); el.setAttribute("aria-label", "Play " + f.title);
+    el.innerHTML = '<div class="vfilm-frame"><img src="' + esc(f.poster) + '" alt="" loading="lazy">' + playIcon + '</div><b>' + esc(f.title) + '</b><span>' + esc(promos[i].tag) + '</span>';
+    el.addEventListener("click", function(){ openBox(promos, i); });
+    pg.append(el); watch(el);
+  });
+  if (!PR.length) $("#promos").style.display = "none";
 
   /* ---------- Nav ---------- */
   var nav = $("#nav"), ly = 0, mnav = $("#mnav"), burger = $("#burger");
