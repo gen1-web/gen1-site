@@ -82,6 +82,9 @@ window.DESIGNS = [
 /* Reels: hosted on your reels site, so new reels only need uploading once */
 window.REELS_BASE = "";
 window.REELS = [
+  { title: "Gen1 animation showreel", tag: "Animation", file: "assets/gen1-animation-portfolio.mp4", poster: "assets/gen1-animation-portfolio.jpg" },
+  { title: "Gen1 animation 1", tag: "Animation", file: "assets/gen1-animation-1.mp4", poster: "assets/gen1-animation-1.jpg" },
+  { title: "Gen1 animation 2", tag: "Animation", file: "assets/gen1-animation-2.mp4", poster: "assets/gen1-animation-2.jpg" },
   { title: "Naima Roberts reel", tag: "Reminder", file: "assets/Naima-roberts-reel.mp4", poster: "assets/Naima roberts reel.jpg" },
   { title: "Sheikh Omar Suleiman: Talking Before Marriage", tag: "Reminder", file: "assets/Sh.Omar Suleiman Reminder.mp4", poster: "assets/Sh.Omar Suleiman Reminder.jpg" },
   { title: "Happy Club Rides app launch", tag: "Promo", file: "assets/happy-club-rides.mp4", poster: "assets/happy-club-rides.jpg" },
