@@ -14,6 +14,19 @@ window.SITE = {
    with -lg at the end of the name. cat = the filter it appears under on the Work page.
    Order here = order on the site, so put your best work first. */
 window.DESIGNS = [
+  { src: "deck-hom-01.jpg", title: "Honouring Our Mothers: Gaza", client: "Alkhidmat UK", cat: "Charity Campaign Decks", pages: ["deck-hom-01.jpg", "deck-hom-02.jpg", "deck-hom-03.jpg", "deck-hom-04.jpg", "deck-hom-05.jpg", "deck-hom-06.jpg", "deck-hom-07.jpg", "deck-hom-08.jpg", "deck-hom-09.jpg", "deck-hom-10.jpg", "deck-hom-11.jpg"] },
+  { src: "d68.jpg", title: "Exact Club: Because Just Work Is Not Our Style", client: "Visiomate", cat: "Social Media", feat: true },
+  { src: "d61.jpg", title: "Tazgo Cold Pressed Juice: full range", client: "Tazgo Nutrition", cat: "Packaging", feat: true },
+  { src: "d62.jpg", title: "Tazgo Apple, Beet and Carrot", client: "Tazgo Nutrition", cat: "Packaging", feat: true },
+  { src: "d63.jpg", title: "Tazgo Apple, Cucumber and Spinach", client: "Tazgo Nutrition", cat: "Packaging", feat: true, nohome: true },
+  { src: "d64.jpg", title: "Tazgo Green Apple", client: "Tazgo Nutrition", cat: "Packaging", feat: true, nohome: true },
+  { src: "d65.jpg", title: "Tazgo Mosami", client: "Tazgo Nutrition", cat: "Packaging", feat: true, nohome: true },
+  { src: "d66.jpg", title: "Tazgo Orange", client: "Tazgo Nutrition", cat: "Packaging", feat: true, nohome: true },
+  { src: "d67.jpg", title: "Tazgo nutrition labels", client: "Tazgo Nutrition", cat: "Packaging", feat: true },
+  { src: "d57.jpg", title: "Happy Club Rides: Rideshare Revolution", client: "Happy Club Rides", cat: "Social Media", feat: true },
+  { src: "d58.jpg", title: "Sick of Overpaying for Rides?", client: "Happy Club Rides", cat: "Social Media", feat: true },
+  { src: "d59.jpg", title: "Your Ride, Your Rules", client: "Happy Club Rides", cat: "Social Media", feat: true },
+  { src: "d60.jpg", title: "Drivers! Feeling Unsafe?", client: "Happy Club Rides", cat: "Social Media", feat: true },
   { src: "d51.jpg", title: "New Name. Same Values.", client: "Be The Mercy", cat: "Campaigns", feat: true },
   { src: "d52.jpg", title: "Feed the Fasting: One Donation, Five Nations", client: "Be The Mercy", cat: "Campaigns", feat: true },
   { src: "d53.jpg", title: "We Are Now Be The Mercy", client: "Be The Mercy", cat: "Campaigns", feat: true },
@@ -98,6 +111,13 @@ window.REELS = [
 /* Cinema Cuts: Full HD (16:9) films and promos. Upload the .mp4 and a .jpg cover, then add a line here. */
 window.FILMS = [
   { title: "Al Quran Institute promo", tag: "Brand film", length: "1:46", file: "al-quran-institute-promo.mp4", poster: "al-quran-institute-promo.jpg" }
+];
+
+/* Promos: brand promos for the Videos page. aspect "portrait" (9:16) or omit for 16:9. */
+window.PROMOS = [
+  { title: "Discover Islam promo", tag: "Promo", length: "0:32", file: "assets/discover-islam-promo.mp4", poster: "assets/discover-islam-promo.jpg" },
+  { title: "ABC Juice promo reel", tag: "Promo reel", length: "0:53", file: "assets/abc-juice-promo.mp4", poster: "assets/abc-juice-promo.jpg", portrait: true },
+  { title: "AICC promo", tag: "Promo reel", length: "2:03", file: "assets/aicc-promo.mp4", poster: "assets/aicc-promo.jpg", portrait: true }
 ];
 
 /* Websites: image in assets/misc, url optional. Add images: [...] for extra screens that slide automatically. */
