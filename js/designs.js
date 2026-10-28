@@ -17,4 +17,22 @@
   window.addEventListener("scroll", function(){ var y = window.scrollY; nav.classList.toggle("hide", y > ly && y > 300 && !mnav.classList.contains("open")); ly = y; }, { passive: true });
   burger.addEventListener("click", function(){ var o = mnav.classList.toggle("open"); burger.setAttribute("aria-expanded", o ? "true" : "false"); document.body.style.overflow = o ? "hidden" : ""; });
   $$("#mnav a").forEach(function(a){ a.addEventListener("click", function(){ mnav.classList.remove("open"); burger.setAttribute("aria-expanded", "false"); document.body.style.overflow = ""; }); });
+
+  /* Latest campaigns grid with lightbox */
+  var D = (window.DESIGNS || []).filter(function(x){ return x.feat; }), grid = $("#dgrid");
+  var esc = function(s){ return String(s || "").replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); };
+  if (grid && D.length) {
+    grid.innerHTML = D.map(function(x, i){
+      return '<button type="button" class="dcard reveal" data-i="' + i + '" style="--i:' + i + '" aria-label="View ' + esc(x.title) + '"><img src="designs/' + x.src + '" alt="' + esc(x.title) + ' by Gen1 Solutions for ' + esc(x.client) + '" width="520" height="650" loading="lazy" decoding="async"><span class="dcard-cap"><b>' + esc(x.title) + '</b><i>' + esc(x.client) + '</i></span></button>';
+    }).join("");
+    $$(".dcard").forEach(function(n){ if (io && !reduce) io.observe(n); else n.classList.add("in"); });
+    var box = $("#dbox"), img = $("#dboxImg"), cap = $("#dboxCap"), idx = 0;
+    var show = function(i){ idx = (i + D.length) % D.length; img.src = "designs/" + D[idx].src.replace(".jpg", "-lg.jpg"); img.alt = D[idx].title; cap.innerHTML = "<b>" + esc(D[idx].title) + "</b>" + esc(D[idx].client) + " &middot; " + (idx + 1) + " / " + D.length; };
+    grid.addEventListener("click", function(e){ var b = e.target.closest(".dcard"); if (!b) return; show(+b.getAttribute("data-i")); box.showModal(); });
+    $("#dboxClose").addEventListener("click", function(){ box.close(); });
+    $("#dboxPrev").addEventListener("click", function(){ show(idx - 1); });
+    $("#dboxNext").addEventListener("click", function(){ show(idx + 1); });
+    box.addEventListener("click", function(e){ if (e.target === box) box.close(); });
+    box.addEventListener("keydown", function(e){ if (e.key === "ArrowRight") show(idx + 1); if (e.key === "ArrowLeft") show(idx - 1); });
+  }
 })();
