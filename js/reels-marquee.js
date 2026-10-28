@@ -12,11 +12,17 @@
     ".reel-hint{display:flex;align-items:center;justify-content:center;gap:.5rem;margin-top:.3rem;color:rgba(255,255,255,.4);font-size:.8rem;font-weight:500;letter-spacing:.02em}" +
     ".reel-hint svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2}" +
     ".reel-outer{position:relative}" +
-    ".reel-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:5;width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:rgba(10,10,10,.72);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;transition:background .25s,transform .25s,border-color .25s}" +
-    ".reel-arrow:hover{background:var(--red);border-color:var(--red);transform:translateY(-50%) scale(1.08)}" +
-    ".reel-arrow svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}" +
-    ".reel-arrow-prev{left:clamp(.5rem,2vw,1.5rem)}.reel-arrow-next{right:clamp(.5rem,2vw,1.5rem)}" +
-    "@media (max-width:640px){.reel-arrow{width:38px;height:38px}}" +
+    ".reel-arrow{position:absolute;top:50%;z-index:5;width:84px;height:84px;margin-top:-42px;border-radius:50%;border:4px solid #fff;background:var(--red);color:#fff;display:grid;place-items:center;padding:0;cursor:pointer;box-shadow:0 14px 34px rgba(204,0,1,.5),0 4px 10px rgba(0,0,0,.25);transition:transform .3s cubic-bezier(.16,1,.3,1),background .25s,box-shadow .3s}" +
+    ".reel-arrow::before{content:'';position:absolute;inset:-4px;border-radius:50%;border:3px solid var(--red);opacity:0;animation:rowPulse 2.2s ease-out infinite;pointer-events:none}" +
+    ".reel-arrow svg{width:38px;height:38px;fill:none;stroke:currentColor;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .3s}" +
+    ".reel-arrow-prev{left:clamp(.75rem,2.5vw,2.25rem)}.reel-arrow-next{right:clamp(.75rem,2.5vw,2.25rem)}" +
+    ".reel-arrow:hover{transform:scale(1.12);background:#fff;color:var(--red);box-shadow:0 18px 40px rgba(0,0,0,.4)}" +
+    ".reel-arrow:hover::before{border-color:#fff}" +
+    ".reel-arrow-next:hover svg{transform:translateX(4px)}.reel-arrow-prev:hover svg{transform:translateX(-4px)}" +
+    ".reel-arrow:active{transform:scale(.94)}" +
+    ".reel-arrow:focus-visible{outline:3px solid #fff;outline-offset:4px}" +
+    "@media (max-width:640px){.reel-arrow{width:56px;height:56px;margin-top:-28px;border-width:3px}.reel-arrow svg{width:26px;height:26px}}" +
+    "@media (prefers-reduced-motion:reduce){.reel-arrow::before{animation:none}}" +
     "@media (prefers-reduced-motion:reduce){.phones.marquee{animation:none}}";
   document.head.appendChild(st);
   var wrap = document.createElement("div"); wrap.className = "reel-marquee";
@@ -30,7 +36,7 @@
   hint.innerHTML = '<svg viewBox="0 0 24 24"><path d="M5 12h14M5 12l4-4M5 12l4 4"/></svg> Hover to pause';
   outer.after(hint);
   var nudge = 0;
-  [["prev","M15 5l-7 7 7 7","Scroll reels left"],["next","M9 5l7 7-7 7","Scroll reels right"]].forEach(function(a){
+  [["prev","M20 12H4M10 5l-7 7 7 7","Scroll reels left"],["next","M4 12h16M14 5l7 7-7 7","Scroll reels right"]].forEach(function(a){
     var b = document.createElement("button"); b.type = "button"; b.className = "reel-arrow reel-arrow-" + a[0];
     b.setAttribute("aria-label", a[2]);
     b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + a[1] + '"/></svg>';
