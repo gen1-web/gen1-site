@@ -75,7 +75,8 @@ var T={
  GCAROUSEL:{label:"Carousel",wide:false,fields:[["title","Caption"]],add:"carousel"},
  SITE:{label:"Contact links",site:true},
  PAGES:{label:"Page text",pages:true},
- FILES:{label:"Files and images",files:true}
+ FILES:{label:"Files and images",files:true},
+ ANALYTICS:{label:"Visitors",analytics:true}
 };
 var PAGELIST=[["index.html","Homepage"],["about.html","About"],["work.html","Work"],["videos.html","Videos"],["privacy-policy.html","Privacy policy"],["terms.html","Terms"]];
 var pc={},pdir="",dels={},fdir="assets",fcache={},pcur="index.html",pq="";
@@ -134,6 +135,7 @@ function render(){
  var c=T[tab],m=$("#mn");
  if(c.pages){renderPages();return}
  if(c.files){renderFiles();return}
+ if(c.analytics){renderVisitors();return}
  if(c.site){m.innerHTML='<div class="bar"><h2>Contact links</h2></div><div class="box" style="width:100%" id="sf"></div>';
   var s=DATA.SITE||{};$("#sf").innerHTML=Object.keys(s).map(function(k){return '<label>'+k+'</label><input type="text" data-k="'+k+'" value="'+esc(s[k])+'">'}).join("")+'<div class="row"><button class="btn red" id="ss">Apply</button></div>';
   $("#ss").onclick=function(){[].forEach.call(document.querySelectorAll("#sf input"),function(i){DATA.SITE[i.dataset.k]=i.value.trim()});setDirty();log("Applied. Press Publish to go live.")};setDirty();return}
@@ -169,6 +171,10 @@ function drawPage(){var o=pc[pcur];if(!o)return;var q=pq.toLowerCase(),h="";
  o.items.forEach(function(it,i){var v=o.vals[i];if(q&&v.toLowerCase().indexOf(q)<0)return;var long=v.length>70||v.indexOf("\n")>-1;
   h+='<div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:8px"><span style="width:90px;flex:none;color:var(--mu);font-size:11px;padding-top:9px">'+esc(it.label)+'</span>'+(long?'<textarea data-i="'+i+'" style="min-height:'+Math.min(160,40+Math.ceil(v.length/90)*20)+'px;font-family:inherit;font-size:14px">'+esc(v)+'</textarea>':'<input type="text" data-i="'+i+'" value="'+esc(v)+'">')+'</div>'});
  var pl=$("#pl");pl.innerHTML=h||"Nothing matches.";[].forEach.call(pl.querySelectorAll("[data-i]"),function(e){e.oninput=function(){o.vals[+e.dataset.i]=e.value;e.style.borderColor=e.value!==o.items[+e.dataset.i].dec?"#e6a700":"";setDirty()}})}
+
+/* ---------- visitors (Vercel Web Analytics) ---------- */
+function renderVisitors(){var m=$("#mn");
+ m.innerHTML='<div class="bar"><h2>Visitors</h2></div><div class="box" style="width:100%"><p style="margin-top:0">Visitor numbers come from <b>Vercel Web Analytics</b>, which is already installed on your pages. It shows how many people visited, which countries and cities they came from, which devices, browsers and operating systems they used, which pages they read and where they came from (Instagram, Google, direct and so on). It does not use cookies and does not identify individuals.</p><div class="row" style="justify-content:flex-start"><a class="btn red" id="va" target="_blank" rel="noopener" href="https://vercel.com/dashboard" style="text-decoration:none">Open Vercel dashboard</a></div><p class="note">In Vercel: open the gen1-site project, then the <b>Analytics</b> tab. If it says Analytics is not enabled, press <b>Enable</b> once. Numbers start appearing from that moment and update live.</p></div>';setDirty()}
 
 /* ---------- files browser ---------- */
 var FDIRS=["","assets","assets/misc","assets/branding","designs","css","js"];
