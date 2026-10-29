@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Gen1 Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--red:#CC0001;--bg:#0b0b0c;--card:#151517;--line:#26262a;--tx:#f3f3f4;--mu:#9a9aa3}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.5 Poppins,system-ui,sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}
+header{position:sticky;top:0;z-index:20;background:#0b0b0cf2;backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:12px 20px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+header h1{font-size:16px;margin:0;font-weight:700}header h1 b{color:var(--red)}
+.sp{flex:1}
+.btn{background:#222226;border:1px solid var(--line);border-radius:8px;padding:7px 13px;cursor:pointer}
+.btn:hover{border-color:#444}.btn.red{background:var(--red);border-color:var(--red);font-weight:600}.btn.sm{padding:4px 9px;font-size:12px}.btn.del:hover{border-color:var(--red);color:#ff6b6b}
+.btn[disabled]{opacity:.45;cursor:default}
+nav{display:flex;gap:6px;flex-wrap:wrap;padding:14px 20px 0}
+nav button{background:none;border:0;border-bottom:2px solid transparent;padding:8px 12px;cursor:pointer;color:var(--mu)}
+nav button.on{color:var(--tx);border-color:var(--red)}
+main{padding:20px;max-width:1300px;margin:0 auto}
+.bar{display:flex;gap:10px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
+.bar h2{margin:0;font-size:18px}.bar small{color:var(--mu)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.it{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.it .th{aspect-ratio:4/5;background:#000 center/cover no-repeat;position:relative}
+.it .th.w{aspect-ratio:16/10}.it .th span{position:absolute;left:8px;top:8px;background:#000a;border-radius:6px;padding:1px 7px;font-size:11px}
+.it .bd{padding:10px 12px;flex:1}.it .bd b{display:block;font-size:13px;line-height:1.3}.it .bd small{color:var(--mu)}
+.it .ac{display:flex;gap:6px;padding:0 12px 12px;flex-wrap:wrap}
+.chg{border-color:#e6a700}
+.save{position:fixed;left:0;right:0;bottom:0;background:#1b1405;border-top:1px solid #e6a700;padding:12px 20px;display:none;gap:12px;align-items:center;z-index:30}
+.save.on{display:flex}
+.modal{position:fixed;inset:0;background:#000b;z-index:50;display:none;align-items:flex-start;justify-content:center;overflow:auto;padding:30px 14px}
+.modal.on{display:flex}
+.box{background:var(--card);border:1px solid var(--line);border-radius:14px;width:min(640px,100%);padding:20px}
+.box h3{margin:0 0 14px}
+label{display:block;margin:10px 0 3px;color:var(--mu);font-size:12px}
+input[type=text],textarea,select,input[type=file]{width:100%;background:#0e0e10;border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+textarea{min-height:90px;font-family:ui-monospace,monospace;font-size:12px}
+.ck{display:flex;gap:8px;align-items:center;margin-top:10px;color:var(--tx)}
+.ck input{width:auto}
+.row{display:flex;gap:10px;justify-content:flex-end;margin-top:16px}
+.note{color:var(--mu);font-size:12px;margin-top:6px}
+.login{max-width:520px;margin:60px auto;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px}
+.login ol{padding-left:18px;color:var(--mu)}
+#log{position:fixed;right:14px;bottom:70px;background:#111;border:1px solid var(--line);border-radius:10px;padding:10px 14px;max-width:360px;display:none;z-index:60;font-size:12px;white-space:pre-wrap}
+</style>
+</head>
+<body>
+<header>
+  <h1><b>Gen1</b> Admin</h1><span class="sp"></span>
+  <span id="who" style="color:var(--mu)"></span>
+  <a class="btn" href="/" target="_blank" style="text-decoration:none">View site</a>
+  <button class="btn" id="out" style="display:none">Disconnect</button>
+</header>
+<div id="app"></div>
+<div class="save" id="save"><span id="savemsg"></span><span class="sp"></span><button class="btn" id="discard">Discard</button><button class="btn red" id="commit">Publish changes</button></div>
+<div class="modal" id="modal"><div class="box" id="box"></div></div>
+<div id="log"></div>
+<script>
+(function(){
+var REPO="gen1-web/gen1-site",BR="main",API="https://api.github.com/repos/"+REPO+"/contents/";
+var tok="";try{tok=localStorage.getItem("g1tok")||""}catch(e){}
+var DATA=null,ORIG="",SHA="",staged={},tab="DESIGNS",dirty=false;
+var $=function(s,r){return (r||document).querySelector(s)};
+var esc=function(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})};
+var T={
+ DESIGNS:{label:"Designs",wide:false,fields:[["title","Title"],["client","Client"],["cat","Category (filter on Work page)","cat"],["feat","Featured","check"],["nohome","Hide from homepage","check"]],add:"designs"},
+ REELS:{label:"Reels",wide:false,fields:[["title","Title"],["tag","Tag (e.g. Promo, Reminder)"]],add:"video"},
+ PROMOS:{label:"Promos",wide:true,fields:[["title","Title"],["tag","Tag"],["length","Length (auto-filled)"],["portrait","Portrait (9:16)","check"]],add:"video"},
+ FILMS:{label:"Films",wide:true,fields:[["title","Title"],["tag","Tag"],["length","Length (auto-filled)"]],add:"video"},
+ WEBSITES:{label:"Websites",wide:true,fields:[["title","Title"],["type","Description"],["url","Website link"]],add:"image1"},
+ BRANDING:{label:"Branding",wide:true,fields:[["title","Title"],["client","Subtitle"],["desc","Description","area"],["tags","Tags (comma separated)","list"],["colors","Colours (comma separated hex)","list"]],add:"branding"},
+ GCAROUSEL:{label:"Carousel",wide:false,fields:[["title","Caption"]],add:"carousel"},
+ SITE:{label:"Contact links",site:true}
+};
+function log(m,keep){var l=$("#log");l.textContent=m;l.style.display="block";if(!keep)setTimeout(function(){l.style.display="none"},4000)}
+function b64utf(s){var b=new TextEncoder().encode(s),r="";for(var i=0;i<b.length;i+=8192)r+=String.fromCharCode.apply(null,b.subarray(i,i+8192));return btoa(r)}
+function b64buf(buf){var b=new Uint8Array(buf),r="";for(var i=0;i<b.length;i+=8192)r+=String.fromCharCode.apply(null,b.subarray(i,i+8192));return btoa(r)}
+function fromb64utf(s){var r=atob(s.replace(/\n/g,"")),b=new Uint8Array(r.length);for(var i=0;i<r.length;i++)b[i]=r.charCodeAt(i);return new TextDecoder().decode(b)}
+async function gh(path,opt){opt=opt||{};var r=await fetch(API+path.split("/").map(encodeURIComponent).join("/")+(opt.method?"":"?ref="+BR+"&t="+Date.now()),{method:opt.method||"GET",headers:{Authorization:"Bearer "+tok,Accept:"application/vnd.github+json"},body:opt.body?JSON.stringify(opt.body):undefined});
+ var j=await r.json().catch(function(){return{}});if(!r.ok){var e=new Error(j.message||r.status);e.status=r.status;throw e}return j}
+function slug(s){return String(s||"item").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,40)||"item"}
+function stamp(){return Date.now().toString(36).slice(-4)}
+function ser(d){var o="/* GEN1 SITE CONTENT. Managed by the admin dashboard at /admin. Order here = order on the site. */\n\n";
+ Object.keys(d).forEach(function(k){var v=d[k];o+="window."+k+" = ";
+  if(Array.isArray(v))o+="[\n"+v.map(function(x){return "  "+JSON.stringify(x)}).join(",\n")+"\n];\n\n";
+  else o+=JSON.stringify(v,null,2)+";\n\n"});return o}
+function parse(text){var w={};new Function("window",text)(w);return w}
+function setDirty(){dirty=JSON.stringify(DATA)!==ORIG||Object.keys(staged).length>0;var s=$("#save");s.classList.toggle("on",dirty);
+ $("#savemsg").textContent=(Object.keys(staged).length?Object.keys(staged).length+" file(s) to upload, ":"")+"unpublished changes"}
+function pv(p){if(!p)return"";if(staged[p])return staged[p].url;return /^https?:/.test(p)?p:"/"+p.replace(/ /g,"%20")}
+
+/* ---------- login ---------- */
+function loginView(msg){$("#out").style.display="none";$("#who").textContent="";
+ $("#app").innerHTML='<div class="login"><h2 style="margin-top:0">Connect to your website</h2><p style="color:var(--mu)">This page edits your site by saving changes to GitHub, then Vercel republishes automatically (about a minute).</p><ol><li>On GitHub open Settings, Developer settings, Personal access tokens, Fine-grained tokens, Generate new token.</li><li>Repository access: only <b>gen1-web/gen1-site</b>. Permissions: <b>Contents: Read and write</b>.</li><li>Paste the token below. It stays in this browser only.</li></ol><label>Access token</label><input type="text" id="tk" placeholder="github_pat_..." autocomplete="off"><div class="row"><button class="btn red" id="go">Connect</button></div><div class="note" id="lm" style="color:#ff7b7b">'+esc(msg||"")+'</div></div>';
+ $("#go").onclick=function(){tok=$("#tk").value.trim();if(!tok)return;try{localStorage.setItem("g1tok",tok)}catch(e){}start()}}
+$("#out").onclick=function(){try{localStorage.removeItem("g1tok")}catch(e){}tok="";DATA=null;loginView()};
+
+async function start(){
+ $("#app").innerHTML='<div class="login">Loading your content...</div>';
+ try{var f=await gh("js/data.js");SHA=f.sha;var txt=fromb64utf(f.content);DATA=parse(txt);ORIG=JSON.stringify(DATA);staged={};
+  $("#out").style.display="";$("#who").textContent=REPO;render()}
+ catch(e){loginView(e.status===401||e.status===403||e.status===404?"That token was not accepted for the repository ("+e.message+").":"Could not load: "+e.message)}}
+
+/* ---------- main view ---------- */
+function render(){
+ var h='<nav>'+Object.keys(T).map(function(k){return '<button data-t="'+k+'" class="'+(k===tab?"on":"")+'">'+T[k].label+(Array.isArray(DATA[k])?" ("+DATA[k].length+")":"")+'</button>'}).join("")+'</nav><main id="mn"></main>';
+ $("#app").innerHTML=h;
+ [].forEach.call(document.querySelectorAll("nav button"),function(b){b.onclick=function(){tab=b.dataset.t;render()}});
+ var c=T[tab],m=$("#mn");
+ if(c.site){m.innerHTML='<div class="bar"><h2>Contact links</h2></div><div class="box" style="width:100%" id="sf"></div>';
+  var s=DATA.SITE||{};$("#sf").innerHTML=Object.keys(s).map(function(k){return '<label>'+k+'</label><input type="text" data-k="'+k+'" value="'+esc(s[k])+'">'}).join("")+'<div class="row"><button class="btn red" id="ss">Apply</button></div>';
+  $("#ss").onclick=function(){[].forEach.call(document.querySelectorAll("#sf input"),function(i){DATA.SITE[i.dataset.k]=i.value.trim()});setDirty();log("Applied. Press Publish to go live.")};setDirty();return}
+ var arr=DATA[tab]||(DATA[tab]=[]);
+ m.innerHTML='<div class="bar"><h2>'+c.label+'</h2><small>'+arr.length+' items. Order here is the order on the site.</small><span class="sp"></span><button class="btn red" id="add">+ Add new</button></div><div class="grid" id="gr"></div>';
+ $("#add").onclick=function(){edit(-1)};
+ var orig=JSON.parse(ORIG)[tab]||[];
+ $("#gr").innerHTML=arr.map(function(it,i){var img=thumbOf(it);var ch=JSON.stringify(it)!==JSON.stringify(orig[i])&&orig.indexOf&&true;
+  var isNew=!orig.some(function(o){return JSON.stringify(o)===JSON.stringify(it)});
+  return '<div class="it'+(isNew?" chg":"")+'"><div class="th'+(c.wide?" w":"")+'" style="background-image:url(\''+esc(pv(img))+'\')">'+(it.pages?'<span>'+it.pages.length+' boards</span>':(/video/.test(c.add)?'<span>video</span>':''))+'</div><div class="bd"><b>'+esc(it.title||"(untitled)")+'</b><small>'+esc(it.client||it.tag||it.type||it.cat||"")+'</small></div><div class="ac"><button class="btn sm" data-a="e" data-i="'+i+'">Edit</button><button class="btn sm" data-a="u" data-i="'+i+'"'+(i?'':' disabled')+'>&uarr;</button><button class="btn sm" data-a="d" data-i="'+i+'"'+(i<arr.length-1?'':' disabled')+'>&darr;</button><button class="btn sm del" data-a="x" data-i="'+i+'">Delete</button></div></div>'}).join("");
+ [].forEach.call(document.querySelectorAll("#gr [data-a]"),function(b){b.onclick=function(){var i=+b.dataset.i,a=b.dataset.a;
+  if(a==="e")edit(i);else if(a==="x"){if(confirm("Delete \""+(arr[i].title||"this item")+"\" from the site?")){arr.splice(i,1);render()}}
+  else{var j=a==="u"?i-1:i+1;var t=arr[i];arr[i]=arr[j];arr[j]=t;render()}}});
+ setDirty()}
+function thumbOf(it){if(tab==="DESIGNS")return it.src?"designs/"+it.src:"";if(tab==="WEBSITES")return it.image||(it.mock&&it.mock.desktop&&it.mock.desktop[0])||"";if(tab==="BRANDING")return it.cover;if(tab==="GCAROUSEL")return it.src;return it.poster}
+
+/* ---------- edit modal ---------- */
+function field(f,v,cats){var k=f[0],t=f[2];
+ if(t==="check")return '<label class="ck"><input type="checkbox" data-f="'+k+'"'+(v?" checked":"")+'> '+f[1]+'</label>';
+ if(t==="area")return '<label>'+f[1]+'</label><textarea data-f="'+k+'" style="font-family:inherit;font-size:14px">'+esc(v)+'</textarea>';
+ if(t==="list")return '<label>'+f[1]+'</label><input type="text" data-f="'+k+'" value="'+esc((v||[]).join(", "))+'">';
+ if(t==="cat")return '<label>'+f[1]+'</label><input type="text" data-f="'+k+'" list="cats" value="'+esc(v)+'"><datalist id="cats">'+cats.map(function(c){return '<option value="'+esc(c)+'">'}).join("")+'</datalist>';
+ return '<label>'+f[1]+'</label><input type="text" data-f="'+k+'" value="'+esc(v)+'">'}
+function edit(i){
+ var c=T[tab],arr=DATA[tab],isNew=i<0,it=isNew?{}:JSON.parse(JSON.stringify(arr[i]));
+ var cats=tab==="DESIGNS"?Array.from(new Set(arr.map(function(d){return d.cat}).filter(Boolean))):[];
+ var up="";
+ if(isNew){var a=c.add;
+  up=a==="designs"?'<label>Image(s). One image = single design, several = a multi-board deck</label><input type="file" id="f1" accept="image/*" multiple>':
+     a==="video"?'<label>Video (mp4). A cover image is made from the video automatically</label><input type="file" id="f1" accept="video/mp4,video/*"><label>Cover image (optional, otherwise taken from the video)</label><input type="file" id="f2" accept="image/*"><div class="note">Keep videos under about 40 MB. Compress big ones first.</div>':
+     a==="image1"?'<label>Website screenshot (optional)</label><input type="file" id="f1" accept="image/*">':
+     a==="branding"?'<label>Cover image</label><input type="file" id="f1" accept="image/*"><label>Other pages (several)</label><input type="file" id="f2" accept="image/*" multiple>':
+     '<label>Image (3:4 portrait)</label><input type="file" id="f1" accept="image/*">'}
+ var raw=JSON.stringify(it,null,2);
+ $("#box").innerHTML='<h3>'+(isNew?"Add to ":"Edit in ")+c.label+'</h3>'+up+c.fields.map(function(f){return field(f,it[f[0]],cats)}).join("")+'<label>Advanced: all fields (JSON). Edit paths here if needed</label><textarea id="raw">'+esc(raw)+'</textarea><div class="note" id="em" style="color:#ff7b7b"></div><div class="row"><button class="btn" id="cn">Cancel</button><button class="btn red" id="ok">'+(isNew?"Add":"Apply")+'</button></div>';
+ $("#modal").classList.add("on");$("#cn").onclick=close;
+ $("#ok").onclick=async function(){var btn=$("#ok");btn.disabled=true;$("#em").textContent="";
+  try{var o;try{o=JSON.parse($("#raw").value||"{}")}catch(e){throw new Error("Advanced JSON is not valid")}
+   [].forEach.call(document.querySelectorAll("#box [data-f]"),function(e){var k=e.dataset.f,f=c.fields.filter(function(x){return x[0]===k})[0];
+    if(e.type==="checkbox"){if(e.checked)o[k]=true;else delete o[k]}
+    else if(f[2]==="list"){o[k]=e.value.split(",").map(function(s){return s.trim()}).filter(Boolean)}
+    else if(e.value.trim()||o[k]!==undefined)o[k]=e.value.trim()});
+   if(isNew)await handleUploads(o);
+   if(!o.title)throw new Error("Please add a title");
+   if(isNew)arr.unshift(o);else arr[i]=o;
+   close();render()}
+  catch(e){$("#em").textContent=e.message;btn.disabled=false}}}
+function close(){$("#modal").classList.remove("on")}
+
+/* ---------- uploads (staged until Publish) ---------- */
+function stage(path,blob){staged[path]={blob:blob,url:URL.createObjectURL(blob)}}
+function loadImg(file){return createImageBitmap(file)}
+async function jpg(bmp,maxW,maxH,q){var r=Math.min(1,maxW/bmp.width,maxH/bmp.height),w=Math.round(bmp.width*r),h=Math.round(bmp.height*r);
+ var cv=document.createElement("canvas");cv.width=w;cv.height=h;var x=cv.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,w,h);x.drawImage(bmp,0,0,w,h);
+ return new Promise(function(res){cv.toBlob(res,"image/jpeg",q||.86)})}
+function nextD(){var m=0;(DATA.DESIGNS||[]).forEach(function(d){var r=/^d(\d+)/.exec(d.src||"");if(r)m=Math.max(m,+r[1])});return m+1}
+async function videoInfo(file){return new Promise(function(res,rej){var v=document.createElement("video");v.muted=true;v.preload="auto";v.src=URL.createObjectURL(file);
+ v.onloadedmetadata=function(){v.currentTime=Math.min(1,v.duration/3)};
+ v.onseeked=function(){var cv=document.createElement("canvas"),r=Math.min(1,720/v.videoWidth);cv.width=Math.round(v.videoWidth*r);cv.height=Math.round(v.videoHeight*r);cv.getContext("2d").drawImage(v,0,0,cv.width,cv.height);
+  cv.toBlob(function(b){var d=Math.round(v.duration);res({poster:b,length:Math.floor(d/60)+":"+String(d%60).padStart(2,"0"),portrait:v.videoHeight>v.videoWidth})},"image/jpeg",.85)};
+ v.onerror=function(){rej(new Error("Could not read that video"))}})}
+async function handleUploads(o){
+ var a=T[tab].add,f1=$("#f1"),f2=$("#f2"),F1=f1&&f1.files,F2=f2&&f2.files,base=slug(o.title)+"-"+stamp();
+ if(a==="designs"){if(!F1||!F1.length)throw new Error("Choose at least one image");
+  if(F1.length===1){var n=nextD(),nm="d"+n,b=await loadImg(F1[0]);stage("designs/"+nm+".jpg",await jpg(b,520,650));stage("designs/"+nm+"-lg.jpg",await jpg(b,1200,1500,.88));o.src=nm+".jpg"}
+  else{var pg=[];for(var i=0;i<F1.length;i++){var nn="deck-"+base+"-"+String(i+1).padStart(2,"0")+".jpg";stage("designs/"+nn,await jpg(await loadImg(F1[i]),1600,1600,.86));pg.push(nn)}o.src=pg[0];o.pages=pg}
+  if(!o.cat)o.cat=F1.length>1?"Charity Campaign Decks":"Social Media"}
+ else if(a==="video"){if(!F1||!F1.length)throw new Error("Choose a video");var vf=F1[0];if(vf.size>60e6)throw new Error("That video is over 60 MB. Compress it first.");
+  var info=await videoInfo(vf);var mp="assets/"+base+".mp4",pp="assets/"+base+".jpg";stage(mp,vf);
+  if(F2&&F2.length)stage(pp,await jpg(await loadImg(F2[0]),720,1280,.86));else stage(pp,info.poster);
+  o.file=mp;o.poster=pp;if(tab!=="REELS"){if(!o.length)o.length=info.length;if(tab==="PROMOS"&&info.portrait)o.portrait=true}}
+ else if(a==="image1"){if(F1&&F1.length){var p="assets/misc/web-"+base+".jpg";stage(p,await jpg(await loadImg(F1[0]),1600,1600,.86));o.image=p}else{o.image=o.image||""}}
+ else if(a==="branding"){if(!F1||!F1.length)throw new Error("Choose a cover image");o.cover="assets/branding/"+base+"-01.jpg";stage(o.cover,await jpg(await loadImg(F1[0]),1800,1800,.88));
+  o.images=[];if(F2)for(var k=0;k<F2.length;k++){var q="assets/branding/"+base+"-"+String(k+2).padStart(2,"0")+".jpg";stage(q,await jpg(await loadImg(F2[k]),1800,1800,.88));o.images.push(q)}}
+ else if(a==="carousel"){if(!F1||!F1.length)throw new Error("Choose an image");var cp="assets/gd-"+base+".jpg";stage(cp,await jpg(await loadImg(F1[0]),1200,1600,.88));o.src=cp}}
+
+/* ---------- publish ---------- */
+$("#discard").onclick=function(){if(confirm("Throw away all unpublished changes?"))start()};
+$("#commit").onclick=async function(){var b=$("#commit");b.disabled=true;
+ try{var keys=Object.keys(staged),n=0;
+  for(var p of keys){n++;log("Uploading file "+n+" of "+keys.length+"...",true);
+   var buf=await staged[p].blob.arrayBuffer(),sha;try{var ex=await gh(p);sha=ex.sha}catch(e){}
+   await gh(p,{method:"PUT",body:{message:"Admin: upload "+p,content:b64buf(buf),branch:BR,sha:sha}})}
+  log("Saving content...",true);
+  var cur=await gh("js/data.js");
+  await gh("js/data.js",{method:"PUT",body:{message:"Admin: update site content",content:b64utf(ser(DATA)),sha:cur.sha,branch:BR}});
+  log("Published. The site updates in about a minute.");await start()}
+ catch(e){log("Failed: "+e.message+(e.status===409||e.status===422?" (someone else changed the site; reload and try again)":""))}
+ b.disabled=false};
+window.addEventListener("beforeunload",function(e){if(dirty){e.preventDefault();e.returnValue=""}});
+if(tok)start();else loginView();
+})();
+</script>
+</body>
+</html>
