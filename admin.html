@@ -61,7 +61,7 @@ textarea{min-height:90px;font-family:ui-monospace,monospace;font-size:12px}
 <script>
 (function(){
 var REPO="gen1-web/gen1-site",BR="main",API="https://api.github.com/repos/"+REPO+"/contents/";
-var tok="";try{tok=localStorage.getItem("g1tok")||""}catch(e){}
+var tok="",VK="g1vault";
 var DATA=null,ORIG="",SHA="",staged={},tab="DESIGNS",dirty=false;
 var $=function(s,r){return (r||document).querySelector(s)};
 var esc=function(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})};
@@ -73,8 +73,12 @@ var T={
  WEBSITES:{label:"Websites",wide:true,fields:[["title","Title"],["type","Description"],["url","Website link"]],add:"image1"},
  BRANDING:{label:"Branding",wide:true,fields:[["title","Title"],["client","Subtitle"],["desc","Description","area"],["tags","Tags (comma separated)","list"],["colors","Colours (comma separated hex)","list"]],add:"branding"},
  GCAROUSEL:{label:"Carousel",wide:false,fields:[["title","Caption"]],add:"carousel"},
- SITE:{label:"Contact links",site:true}
+ SITE:{label:"Contact links",site:true},
+ PAGES:{label:"Page text",pages:true},
+ FILES:{label:"Files and images",files:true}
 };
+var PAGELIST=[["index.html","Homepage"],["about.html","About"],["work.html","Work"],["videos.html","Videos"],["privacy-policy.html","Privacy policy"],["terms.html","Terms"]];
+var pc={},pdir="",dels={},fdir="assets",fcache={},pcur="index.html",pq="";
 function log(m,keep){var l=$("#log");l.textContent=m;l.style.display="block";if(!keep)setTimeout(function(){l.style.display="none"},4000)}
 function b64utf(s){var b=new TextEncoder().encode(s),r="";for(var i=0;i<b.length;i+=8192)r+=String.fromCharCode.apply(null,b.subarray(i,i+8192));return btoa(r)}
 function b64buf(buf){var b=new Uint8Array(buf),r="";for(var i=0;i<b.length;i+=8192)r+=String.fromCharCode.apply(null,b.subarray(i,i+8192));return btoa(r)}
@@ -88,21 +92,39 @@ function ser(d){var o="/* GEN1 SITE CONTENT. Managed by the admin dashboard at /
   if(Array.isArray(v))o+="[\n"+v.map(function(x){return "  "+JSON.stringify(x)}).join(",\n")+"\n];\n\n";
   else o+=JSON.stringify(v,null,2)+";\n\n"});return o}
 function parse(text){var w={};new Function("window",text)(w);return w}
-function setDirty(){dirty=JSON.stringify(DATA)!==ORIG||Object.keys(staged).length>0;var s=$("#save");s.classList.toggle("on",dirty);
- $("#savemsg").textContent=(Object.keys(staged).length?Object.keys(staged).length+" file(s) to upload, ":"")+"unpublished changes"}
+function pageChanged(){return Object.keys(pc).filter(function(k){return pc[k].vals.some(function(v,i){return v!==pc[k].items[i].dec})})}
+function setDirty(){var pcn=pageChanged().length,dn=Object.keys(dels).length;dirty=JSON.stringify(DATA)!==ORIG||Object.keys(staged).length>0||pcn>0||dn>0;var s=$("#save");s.classList.toggle("on",dirty);
+ $("#savemsg").textContent=(Object.keys(staged).length?Object.keys(staged).length+" file(s) to upload, ":"")+(pcn?pcn+" page(s) with text edits, ":"")+(dn?dn+" file(s) to delete, ":"")+"unpublished changes"}
 function pv(p){if(!p)return"";if(staged[p])return staged[p].url;return /^https?:/.test(p)?p:"/"+p.replace(/ /g,"%20")}
 
-/* ---------- login ---------- */
-function loginView(msg){$("#out").style.display="none";$("#who").textContent="";
- $("#app").innerHTML='<div class="login"><h2 style="margin-top:0">Connect to your website</h2><p style="color:var(--mu)">This page edits your site by saving changes to GitHub, then Vercel republishes automatically (about a minute).</p><ol><li>On GitHub open Settings, Developer settings, Personal access tokens, Fine-grained tokens, Generate new token.</li><li>Repository access: only <b>gen1-web/gen1-site</b>. Permissions: <b>Contents: Read and write</b>.</li><li>Paste the token below. It stays in this browser only.</li></ol><label>Access token</label><input type="text" id="tk" placeholder="github_pat_..." autocomplete="off"><div class="row"><button class="btn red" id="go">Connect</button></div><div class="note" id="lm" style="color:#ff7b7b">'+esc(msg||"")+'</div></div>';
- $("#go").onclick=function(){tok=$("#tk").value.trim();if(!tok)return;try{localStorage.setItem("g1tok",tok)}catch(e){}start()}}
-$("#out").onclick=function(){try{localStorage.removeItem("g1tok")}catch(e){}tok="";DATA=null;loginView()};
+/* ---------- login: token is stored encrypted with your own password ---------- */
+var enc8=new TextEncoder(),dec8=new TextDecoder();
+function toB(a){return btoa(String.fromCharCode.apply(null,new Uint8Array(a)))}
+function fromB(s){return Uint8Array.from(atob(s),function(c){return c.charCodeAt(0)})}
+async function keyFor(pw,salt){var k=await crypto.subtle.importKey("raw",enc8.encode(pw),"PBKDF2",false,["deriveKey"]);
+ return crypto.subtle.deriveKey({name:"PBKDF2",salt:salt,iterations:250000,hash:"SHA-256"},k,{name:"AES-GCM",length:256},false,["encrypt","decrypt"])}
+async function lockUp(token,pw){var salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12)),key=await keyFor(pw,salt);
+ var ct=await crypto.subtle.encrypt({name:"AES-GCM",iv:iv},key,enc8.encode(token));return JSON.stringify({s:toB(salt),i:toB(iv),c:toB(ct)})}
+async function unlock(pw){var v=JSON.parse(localStorage.getItem(VK)),key=await keyFor(pw,fromB(v.s));
+ return dec8.decode(await crypto.subtle.decrypt({name:"AES-GCM",iv:fromB(v.i)},key,fromB(v.c)))}
+function hasVault(){try{return !!localStorage.getItem(VK)}catch(e){return false}}
+function shell(h){$("#out").style.display="none";$("#who").textContent="";$("#app").innerHTML='<div class="login">'+h+'</div>'}
+function unlockView(msg){shell('<h2 style="margin-top:0">Admin login</h2><p style="color:var(--mu)">Enter your admin password to open the dashboard.</p><label>Password</label><input type="password" id="pw" autocomplete="current-password" style="width:100%;background:#0e0e10;border:1px solid var(--line);border-radius:8px;padding:8px 10px"><div class="row"><button class="btn" id="fg2">Forget this device</button><button class="btn red" id="go">Log in</button></div><div class="note" id="lm" style="color:#ff7b7b">'+esc(msg||"")+'</div>');
+ var run=async function(){try{tok=await unlock($("#pw").value);start()}catch(e){$("#lm").textContent="Wrong password."}};
+ $("#go").onclick=run;$("#pw").onkeydown=function(e){if(e.key==="Enter")run()};$("#pw").focus();
+ $("#fg2").onclick=function(){if(confirm("This removes the saved login from this browser. You will need your GitHub token again to set it up.")){try{localStorage.removeItem(VK)}catch(e){}loginView()}}}
+function loginView(msg){
+ shell('<h2 style="margin-top:0">Set up admin login</h2><p style="color:var(--mu)">This page edits your site by saving changes to GitHub, then Vercel republishes automatically (about a minute). Do this once per browser.</p><ol><li>On GitHub open Settings, Developer settings, Personal access tokens, Fine-grained tokens, Generate new token.</li><li>Repository access: only <b>gen1-web/gen1-site</b>. Permissions: <b>Contents: Read and write</b>.</li><li>Paste the token below and choose an admin password. The token is stored encrypted with that password, so nobody can open the dashboard on this browser without it.</li></ol><label>GitHub token</label><input type="text" id="tk" placeholder="github_pat_..." autocomplete="off"><label>Choose admin password (8+ characters)</label><input type="password" id="p1" autocomplete="new-password" style="width:100%;background:#0e0e10;border:1px solid var(--line);border-radius:8px;padding:8px 10px"><label>Repeat password</label><input type="password" id="p2" autocomplete="new-password" style="width:100%;background:#0e0e10;border:1px solid var(--line);border-radius:8px;padding:8px 10px"><div class="row"><button class="btn red" id="go">Save and open</button></div><div class="note" id="lm" style="color:#ff7b7b">'+esc(msg||"")+'</div>');
+ $("#go").onclick=async function(){var t=$("#tk").value.trim(),a=$("#p1").value,c=$("#p2").value;
+  if(!t)return $("#lm").textContent="Paste your GitHub token.";if(a.length<8)return $("#lm").textContent="Password needs at least 8 characters.";if(a!==c)return $("#lm").textContent="The two passwords do not match.";
+  tok=t;try{localStorage.setItem(VK,await lockUp(t,a))}catch(e){return $("#lm").textContent="Could not save in this browser."}start()}}
+$("#out").onclick=function(){tok="";DATA=null;pc={};staged={};dels={};hasVault()?unlockView():loginView()};
 
 async function start(){
  $("#app").innerHTML='<div class="login">Loading your content...</div>';
- try{var f=await gh("js/data.js");SHA=f.sha;var txt=fromb64utf(f.content);DATA=parse(txt);ORIG=JSON.stringify(DATA);staged={};
-  $("#out").style.display="";$("#who").textContent=REPO;render()}
- catch(e){loginView(e.status===401||e.status===403||e.status===404?"That token was not accepted for the repository ("+e.message+").":"Could not load: "+e.message)}}
+ try{var f=await gh("js/data.js");SHA=f.sha;var txt=fromb64utf(f.content);DATA=parse(txt);ORIG=JSON.stringify(DATA);staged={};pc={};dels={};fcache={};
+  $("#out").style.display="";$("#out").textContent="Log out";$("#who").textContent=REPO;render()}
+ catch(e){if(e.status===401||e.status===403||e.status===404){try{localStorage.removeItem(VK)}catch(x){}tok="";loginView("GitHub did not accept that token ("+e.message+"). Check it has Contents: Read and write on gen1-web/gen1-site.")}else{shell("<h2 style=\"margin-top:0\">Could not load</h2><p>"+esc(e.message)+"</p><div class=\"row\"><button class=\"btn red\" id=\"rt\">Try again</button></div>");$("#rt").onclick=start}}}
 
 /* ---------- main view ---------- */
 function render(){
@@ -110,6 +132,8 @@ function render(){
  $("#app").innerHTML=h;
  [].forEach.call(document.querySelectorAll("nav button"),function(b){b.onclick=function(){tab=b.dataset.t;render()}});
  var c=T[tab],m=$("#mn");
+ if(c.pages){renderPages();return}
+ if(c.files){renderFiles();return}
  if(c.site){m.innerHTML='<div class="bar"><h2>Contact links</h2></div><div class="box" style="width:100%" id="sf"></div>';
   var s=DATA.SITE||{};$("#sf").innerHTML=Object.keys(s).map(function(k){return '<label>'+k+'</label><input type="text" data-k="'+k+'" value="'+esc(s[k])+'">'}).join("")+'<div class="row"><button class="btn red" id="ss">Apply</button></div>';
   $("#ss").onclick=function(){[].forEach.call(document.querySelectorAll("#sf input"),function(i){DATA.SITE[i.dataset.k]=i.value.trim()});setDirty();log("Applied. Press Publish to go live.")};setDirty();return}
@@ -125,6 +149,42 @@ function render(){
   else{var j=a==="u"?i-1:i+1;var t=arr[i];arr[i]=arr[j];arr[j]=t;render()}}});
  setDirty()}
 function thumbOf(it){if(tab==="DESIGNS")return it.src?"designs/"+it.src:"";if(tab==="WEBSITES")return it.image||(it.mock&&it.mock.desktop&&it.mock.desktop[0])||"";if(tab==="BRANDING")return it.cover;if(tab==="GCAROUSEL")return it.src;return it.poster}
+
+/* ---------- page text editor ---------- */
+function dec(t){var e=document.createElement("textarea");e.innerHTML=t;return e.value}
+function enc(t,attr){t=t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");return attr?t.replace(/"/g,"&quot;"):t}
+function tokenise(raw){var re=/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<!--[\s\S]*?-->|<[^>]+>|[^<]+/g,m,items=[],tag="",stack=[];
+ while((m=re.exec(raw))){var t=m[0],i=m.index;
+  if(t[0]==="<"){var n=/^<\/?\s*([a-zA-Z0-9]+)/.exec(t);if(n&&!/^<\//.test(t))tag=n[1].toLowerCase();
+   if(/^<meta\b/i.test(t)){var nm=/(?:name|property)="([^"]+)"/i.exec(t);if(nm&&/^(description|og:title|og:description|twitter:title|twitter:description)$/i.test(nm[1])){var cm=/content="([^"]*)"/i.exec(t);if(cm){var st=i+cm.index+'content="'.length;items.push({s:st,e:st+cm[1].length,dec:dec(cm[1]),label:"meta "+nm[1],attr:true})}}}}
+  else if(t.trim()&&!/^\s*$/.test(t.replace(/&nbsp;/g,""))){var lead=/^\s*/.exec(t)[0].length,trail=/\s*$/.exec(t)[0].length;items.push({s:i+lead,e:i+t.length-trail,dec:dec(t.slice(lead,t.length-trail)),label:tag||"text"})}}
+ return items}
+function buildPage(k){var o=pc[k],raw=o.raw,out=raw;for(var i=o.items.length-1;i>=0;i--){var it=o.items[i];if(o.vals[i]!==it.dec)out=out.slice(0,it.s)+enc(o.vals[i],it.attr)+out.slice(it.e)}return out}
+async function renderPages(){var m=$("#mn");
+ m.innerHTML='<div class="bar"><h2>Page text</h2><select id="ps" style="width:auto">'+PAGELIST.map(function(p){return '<option value="'+p[0]+'"'+(p[0]===pcur?" selected":"")+'>'+p[1]+(pc[p[0]]&&pageChanged().indexOf(p[0])>-1?" *":"")+'</option>'}).join("")+'</select><input type="text" id="pq" placeholder="Search text..." style="width:220px" value="'+esc(pq)+'"><small>Edit any heading, paragraph, button or link text. Layout and design stay untouched.</small></div><div id="pl">Loading...</div>';
+ $("#ps").onchange=function(){pcur=this.value;renderPages()};$("#pq").oninput=function(){pq=this.value;drawPage()};
+ if(!pc[pcur]){try{var f=await gh(pcur),raw=fromb64utf(f.content),items=tokenise(raw);pc[pcur]={raw:raw,sha:f.sha,items:items,vals:items.map(function(x){return x.dec})}}catch(e){$("#pl").textContent="Could not load "+pcur+": "+e.message;return}}
+ drawPage();setDirty()}
+function drawPage(){var o=pc[pcur];if(!o)return;var q=pq.toLowerCase(),h="";
+ o.items.forEach(function(it,i){var v=o.vals[i];if(q&&v.toLowerCase().indexOf(q)<0)return;var long=v.length>70||v.indexOf("\n")>-1;
+  h+='<div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:8px"><span style="width:90px;flex:none;color:var(--mu);font-size:11px;padding-top:9px">'+esc(it.label)+'</span>'+(long?'<textarea data-i="'+i+'" style="min-height:'+Math.min(160,40+Math.ceil(v.length/90)*20)+'px;font-family:inherit;font-size:14px">'+esc(v)+'</textarea>':'<input type="text" data-i="'+i+'" value="'+esc(v)+'">')+'</div>'});
+ var pl=$("#pl");pl.innerHTML=h||"Nothing matches.";[].forEach.call(pl.querySelectorAll("[data-i]"),function(e){e.oninput=function(){o.vals[+e.dataset.i]=e.value;e.style.borderColor=e.value!==o.items[+e.dataset.i].dec?"#e6a700":"";setDirty()}})}
+
+/* ---------- files browser ---------- */
+var FDIRS=["","assets","assets/misc","assets/branding","designs","css","js"];
+async function renderFiles(){var m=$("#mn");
+ m.innerHTML='<div class="bar"><h2>Files and images</h2><select id="fd" style="width:auto">'+FDIRS.map(function(d){return '<option value="'+d+'"'+(d===fdir?" selected":"")+'>'+(d||"(site root)")+'</option>'}).join("")+'</select><label class="btn" style="margin:0;cursor:pointer">+ Upload here<input type="file" id="fu" multiple hidden></label><small>Replace keeps the same name, so every page using it updates.</small></div><div class="grid" id="fg">Loading...</div>';
+ $("#fd").onchange=function(){fdir=this.value;renderFiles()};
+ $("#fu").onchange=function(){[].forEach.call(this.files,function(f){stage((fdir?fdir+"/":"")+f.name,f)});renderFiles();setDirty()};
+ try{var l=fcache[fdir]||(fcache[fdir]=await gh(fdir||"")),h="";
+  var all=l.filter(function(x){return x.type==="file"}).map(function(x){return{path:x.path,name:x.name,size:x.size}});
+  Object.keys(staged).forEach(function(p){var d=p.indexOf("/")>-1?p.slice(0,p.lastIndexOf("/")):"";if(d===fdir&&!all.some(function(a){return a.path===p}))all.push({path:p,name:p.split("/").pop(),size:staged[p].blob.size,neu:true})});
+  all.forEach(function(x){var img=/\.(jpe?g|png|gif|webp|svg)$/i.test(x.name),vid=/\.(mp4|webm|mov)$/i.test(x.name),sg=staged[x.path],dl=dels[x.path];
+   h+='<div class="it'+(sg?" chg":"")+'" style="'+(dl?"opacity:.4":"")+'"><div class="th w" style="background-image:url(\''+esc(pv(x.path))+'\');background-size:contain;background-color:#000">'+(img?"":'<span>'+(vid?"video":"file")+'</span>')+(sg?'<span style="left:auto;right:8px;background:#e6a700;color:#000">'+(x.neu?"new":"replacing")+'</span>':"")+'</div><div class="bd"><b style="word-break:break-all">'+esc(x.name)+'</b><small>'+(x.size/1024|0)+' KB</small></div><div class="ac"><label class="btn sm" style="margin:0;cursor:pointer">Replace<input type="file" data-r="'+esc(x.path)+'" hidden></label><button class="btn sm del" data-x="'+esc(x.path)+'">'+(dl?"Undo delete":"Delete")+'</button></div></div>'});
+  $("#fg").innerHTML=h||"Empty folder.";
+  [].forEach.call(document.querySelectorAll("[data-r]"),function(e){e.onchange=function(){if(e.files[0]){stage(e.dataset.r,e.files[0]);renderFiles();setDirty()}}});
+  [].forEach.call(document.querySelectorAll("[data-x]"),function(e){e.onclick=function(){var p=e.dataset.x;if(dels[p])delete dels[p];else if(confirm("Delete "+p+" from the site? Pages that use it will show a broken image."))dels[p]=true;renderFiles();setDirty()}})}
+ catch(e){$("#fg").textContent="Could not list this folder: "+e.message}}
 
 /* ---------- edit modal ---------- */
 function field(f,v,cats){var k=f[0],t=f[2];
@@ -193,14 +253,17 @@ $("#commit").onclick=async function(){var b=$("#commit");b.disabled=true;
   for(var p of keys){n++;log("Uploading file "+n+" of "+keys.length+"...",true);
    var buf=await staged[p].blob.arrayBuffer(),sha;try{var ex=await gh(p);sha=ex.sha}catch(e){}
    await gh(p,{method:"PUT",body:{message:"Admin: upload "+p,content:b64buf(buf),branch:BR,sha:sha}})}
-  log("Saving content...",true);
+  var pk=pageChanged();
+  for(var pp of pk){log("Saving text on "+pp+"...",true);var cf=await gh(pp);await gh(pp,{method:"PUT",body:{message:"Admin: edit text on "+pp,content:b64utf(buildPage(pp)),sha:cf.sha,branch:BR}})}
+  for(var dp of Object.keys(dels)){log("Deleting "+dp+"...",true);var df=await gh(dp);await gh(dp,{method:"DELETE",body:{message:"Admin: delete "+dp,sha:df.sha,branch:BR}})}
+  if(JSON.stringify(DATA)!==ORIG){log("Saving content...",true);
   var cur=await gh("js/data.js");
-  await gh("js/data.js",{method:"PUT",body:{message:"Admin: update site content",content:b64utf(ser(DATA)),sha:cur.sha,branch:BR}});
+  await gh("js/data.js",{method:"PUT",body:{message:"Admin: update site content",content:b64utf(ser(DATA)),sha:cur.sha,branch:BR}})}
   log("Published. The site updates in about a minute.");await start()}
  catch(e){log("Failed: "+e.message+(e.status===409||e.status===422?" (someone else changed the site; reload and try again)":""))}
  b.disabled=false};
 window.addEventListener("beforeunload",function(e){if(dirty){e.preventDefault();e.returnValue=""}});
-if(tok)start();else loginView();
+hasVault()?unlockView():loginView();
 })();
 </script>
 </body>
