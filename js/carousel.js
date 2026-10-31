@@ -29,16 +29,17 @@
   var track = mount.querySelector(".gcar-track");
   var els = [].slice.call(mount.querySelectorAll(".gcar-slide"));
   var count = mount.querySelector(".gcar-count b"), name = mount.querySelector(".gcar-name"), bar = mount.querySelector(".gcar-bar i");
-  var active = 0, raf = 0;
+  var active = 0, raf = 0, prevBtn = mount.querySelector(".row-arrow-prev");
 
+  function padL(){ return parseFloat(getComputedStyle(track).paddingLeft) || 0; }
   function centreOf(el){ return el.offsetLeft + el.offsetWidth / 2; }
   function go(i, instant){
     i = Math.max(0, Math.min(els.length - 1, i));
-    track.scrollTo({ left: centreOf(els[i]) - track.clientWidth / 2, behavior: (instant || reduce) ? "auto" : "smooth" });
+    track.scrollTo({ left: els[i].offsetLeft - padL(), behavior: (instant || reduce) ? "auto" : "smooth" });
   }
   function update(){
     raf = 0;
-    var mid = track.scrollLeft + track.clientWidth / 2, best = 0, bd = 1e9;
+    var mid = track.scrollLeft + padL() + els[0].offsetWidth / 2, best = 0, bd = 1e9;
     var unit = els[0].offsetWidth * 1.1;
     els.forEach(function(el, i){
       var d = Math.abs(centreOf(el) - mid), k = Math.min(1, d / (unit * 1.6));
@@ -50,6 +51,7 @@
       active = best; count.dataset.ready = "1";
       els.forEach(function(el, i){ el.classList.toggle("on", i === active); });
       count.textContent = pad(active + 1); name.textContent = D[active].title;
+      prevBtn.classList.toggle("off", active === 0);
     }
     var max = track.scrollWidth - track.clientWidth;
     bar.style.transform = "scaleX(" + (max > 0 ? (track.scrollLeft / max * .9 + .1).toFixed(3) : 1) + ")";
@@ -112,8 +114,8 @@
     show(i); box.showModal();
   });
 
-  /* Autoplay on the dedicated Designs page: moves left to right, loops, pauses on interaction */
-  if (document.body.classList.contains("page-designs") && !reduce) {
+  /* Autoplay on every page: starts on load, moves left to right, loops, pauses on interaction */
+  if (!reduce) {
     var timer = 0, hold = false, seen = true;
     var tick = function(){ if (hold || !seen || document.hidden || box && box.open) return; go(active >= els.length - 1 ? 0 : active + 1); };
     var start = function(){ if (!timer) timer = setInterval(tick, 2800); };
