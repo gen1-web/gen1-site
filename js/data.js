@@ -99,18 +99,17 @@ window.REELS = [
   {"title":"Ibtidah client testimonial","tag":"Testimonial","file":"assets/ibtidah-testimonial.mp4","poster":"assets/ibtidah-testimonial.jpg"},
   {"title":"The masjid is open","tag":"Promo","file":"https://gen1solutions1.github.io/aic-masjid-is-open.mp4","poster":"https://gen1solutions1.github.io/aic-masjid-is-open.jpg"},
   {"title":"Hope","tag":"Reminder","file":"https://gen1solutions1.github.io/hope.mp4","poster":"https://gen1solutions1.github.io/hope.jpg"},
-  {"title":"Allah is with me","tag":"Reminder","file":"https://gen1solutions1.github.io/allah-is-with-me.mp4","poster":"https://gen1solutions1.github.io/allah-is-with-me.jpg"}
+  {"title":"Allah is with me","tag":"Reminder","file":"https://gen1solutions1.github.io/allah-is-with-me.mp4","poster":"https://gen1solutions1.github.io/allah-is-with-me.jpg"},
+  {"title":"ABC Juice promo reel","tag":"Promo","file":"assets/abc-juice-promo.mp4","poster":"assets/abc-juice-promo.jpg"},
+  {"title":"AICC promo","tag":"Promo","file":"assets/aicc-promo.mp4","poster":"assets/aicc-promo.jpg"}
 ];
 
 window.FILMS = [
-  {"title":"Al Quran Institute promo","tag":"Brand film","length":"1:46","file":"al-quran-institute-promo.mp4","poster":"al-quran-institute-promo.jpg"}
+  {"title":"Al Quran Institute promo","tag":"Brand film","length":"1:46","file":"al-quran-institute-promo.mp4","poster":"al-quran-institute-promo.jpg"},
+  {"title":"Discover Islam promo","tag":"Promo","length":"0:32","file":"assets/discover-islam-promo.mp4","poster":"assets/discover-islam-promo.jpg"}
 ];
 
-window.PROMOS = [
-  {"title":"Discover Islam promo","tag":"Promo","length":"0:32","file":"assets/discover-islam-promo.mp4","poster":"assets/discover-islam-promo.jpg"},
-  {"title":"ABC Juice promo reel","tag":"Promo reel","length":"0:53","file":"assets/abc-juice-promo.mp4","poster":"assets/abc-juice-promo.jpg","portrait":true},
-  {"title":"AICC promo","tag":"Promo reel","length":"2:03","file":"assets/aicc-promo.mp4","poster":"assets/aicc-promo.jpg","portrait":true}
-];
+window.PROMOS = [];
 
 window.WEBSITES = [
   {"title":"Amsha & Mohammad Funeral Service","type":"24/7 Muslim funeral service in West London","url":"https://www.amshamohammed.org.uk","mock":{"desktop":["assets/mock-amsha-d1.jpg","assets/mock-amsha-d2.jpg","assets/mock-amsha-d3.jpg","assets/mock-amsha-d4.jpg"],"bg":"#0f2e27","bg2":"#1d4a3e","accent":"#d4a43a"}},
