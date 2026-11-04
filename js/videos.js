@@ -35,7 +35,7 @@
     v.src = it.file; v.poster = it.poster || ""; v.controls = true; v.autoplay = true; v.playsInline = true;
     v.setAttribute("controlsList", "nodownload noremoteplayback"); v.disablePictureInPicture = true;
     media.append(v);
-    cap.innerHTML = "<b>" + esc(it.title) + "</b>" + esc(it.tag) + (list.length > 1 ? " &middot; " + (idx + 1) + " / " + list.length : "");
+    cap.innerHTML = list.length > 1 ? (idx + 1) + " / " + list.length : "";
   }
   function openBox(items, i){ list = items; idx = i; render(); if (!box.open) box.showModal(); }
   function step(n){ idx = (idx + n + list.length) % list.length; render(); }
