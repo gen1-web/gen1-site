@@ -215,7 +215,7 @@
       var r = R[idx], v = document.createElement("video");
       v.src = RB + r.file; v.poster = RB + r.poster; v.controls = true; v.autoplay = true; v.playsInline = true;
       media.append(v);
-      cap.innerHTML = "<b>" + esc(r.title) + "</b>" + esc(r.tag);
+      cap.innerHTML = "";
     }
   }
   function openBox(m, i){ mode = m; idx = i; render(); if (!box.open) box.showModal(); }
