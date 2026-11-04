@@ -189,7 +189,7 @@
     if (mode === "reel") {
       var v = document.createElement("video");
       v.src = RB + it.file; v.poster = RB + it.poster; v.controls = true; v.autoplay = true; v.playsInline = true;
-      media.append(v); cap.innerHTML = "<b>" + esc(it.title) + "</b>" + esc(it.tag);
+      media.append(v); cap.innerHTML = "";
     } else if (mode === "doc") {
       var di = new Image(); di.src = DIR + it; di.alt = docItem.title + " " + (idx + 1); media.append(di);
       cap.innerHTML = "<b>" + esc(docItem.title) + "</b>" + esc(docItem.client) + " &middot; " + (idx + 1) + " / " + list.length;
