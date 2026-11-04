@@ -624,3 +624,14 @@ img{-webkit-user-drag:none;user-drag:none;-webkit-touch-callout:none;user-select
 @media (prefers-reduced-motion:reduce){.wtrack{animation:none}}
 @media (max-width:720px){.wbg{opacity:.26}}
 .lb-media img{max-width:min(84vw,1400px);object-fit:contain}
+
+/* ===== Ticker: text fades into the red at both ends instead of being sliced by the screen edge ===== */
+.ticker{position:relative}
+.ticker::before,.ticker::after{content:"";position:absolute;top:0;bottom:0;z-index:3;width:clamp(70px,14vw,240px);pointer-events:none}
+.ticker::before{left:0;background:linear-gradient(90deg,var(--red) 10%,rgba(204,0,1,0))}
+.ticker::after{right:0;background:linear-gradient(270deg,var(--red) 10%,rgba(204,0,1,0))}
+
+/* ===== No names on reels or videos. Names stay in aria-labels for screen readers ===== */
+.rcard>b,.rcard>span,.vfilm>b,.vfilm>span,.film-info{display:none!important}
+.phone-meta>div:first-child{display:none!important}
+.phone-meta{justify-content:flex-end}
