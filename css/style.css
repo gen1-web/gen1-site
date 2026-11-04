@@ -635,3 +635,7 @@ img{-webkit-user-drag:none;user-drag:none;-webkit-touch-callout:none;user-select
 .rcard>b,.rcard>span,.vfilm>b,.vfilm>span,.film-info{display:none!important}
 .phone-meta>div:first-child{display:none!important}
 .phone-meta{justify-content:flex-end}
+
+/* ===== Homepage: tighter gap between the testimonials and Cinema Cuts (was ~290px of empty space) ===== */
+section.tst{padding-bottom:clamp(2.5rem,5vw,4rem)}
+section.tst + section#films{padding-top:clamp(2.5rem,4.5vw,4rem)}
