@@ -97,14 +97,14 @@
 
   /* ---------- Promos ---------- */
   var pg = $("#promoGrid"), promos = PR.map(function(f){ return { title: f.title, tag: (f.tag || "Promo") + (f.length ? " · " + f.length : ""), file: f.file, poster: f.poster }; });
-  PR.forEach(function(f, i){
+  (pg ? PR : []).forEach(function(f, i){
     var el = document.createElement("button");
     el.type = "button"; el.className = "vfilm reveal" + (f.portrait ? " is-portrait" : ""); el.setAttribute("aria-label", "Play " + f.title);
     el.innerHTML = '<div class="vfilm-frame"><img src="' + esc(f.poster) + '" alt="" loading="lazy">' + playIcon + '</div><b>' + esc(f.title) + '</b><span>' + esc(promos[i].tag) + '</span>';
     el.addEventListener("click", function(){ openBox(promos, i); });
     pg.append(el); watch(el);
   });
-  if (!PR.length) $("#promos").style.display = "none";
+  var psec = $("#promos"); if (psec && !PR.length) psec.style.display = "none";
 
   /* ---------- Nav ---------- */
   var nav = $("#nav"), ly = 0, mnav = $("#mnav"), burger = $("#burger");
