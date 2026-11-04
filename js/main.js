@@ -43,11 +43,11 @@
   /* ---------- Hero: 3D design wall ---------- */
   var wall = $("#wall");
   if (wall && D.length) {
-    for (var c = 0; c < 4; c++) {
+    for (var c = 0; c < 5; c++) {
       var col = document.createElement("div");
       col.className = "col" + (c % 2 ? " down" : "");
       col.style.setProperty("--t", (55 + c * 9) + "s");
-      var pick = D.filter(function(_, i){ return i % 4 === c; });
+      var pick = D.filter(function(_, i){ return i % 5 === c; });
       var html = pick.map(function(d){ return '<img src="' + DIR + d.src + '" alt="" loading="' + (c < 2 ? "eager" : "lazy") + '" decoding="async">'; }).join("");
       col.innerHTML = html + html; // doubled for a seamless loop
       wall.append(col);
