@@ -8,6 +8,23 @@
   var esc = function(s){ return String(s || "").replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); };
   var playIcon = '<span class="pbtn" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span>';
 
+  /* Moving wall of video work behind the hero heading: reel and film thumbnails in three drifting rows (nothing plays) */
+  (function(){
+    var host = $("#wbg"); if (!host) return;
+    var reels = R.filter(function(r){ return r.poster; }).map(function(r){ return '<figure class="wt wt-r"><img src="' + RB + r.poster + '" alt="" loading="lazy" decoding="async"><i></i></figure>'; });
+    var films = F.filter(function(f){ return f.poster; }).map(function(f){ return '<figure class="wt wt-w"><img src="' + f.poster + '" alt="" loading="lazy" decoding="async"></figure>'; });
+    var seq = [];
+    reels.forEach(function(t, i){ seq.push(t); if (i % 3 === 2 && films.length) seq.push(films[(i / 3 | 0) % films.length]); });
+    if (!seq.length) return;
+    var rows = [[], [], []];
+    seq.forEach(function(t, i){ rows[i % 3].push(t); });
+    host.innerHTML = rows.map(function(r, k){
+      var unit = "", reps = Math.max(2, Math.ceil(16 / Math.max(r.length, 1)));
+      for (var n = 0; n < reps; n++) unit += r.join("");
+      return '<div class="wrow wrow' + k + '"><div class="wtrack">' + unit + unit + '</div></div>';
+    }).join("");
+  })();
+
   /* Contacts */
   $("#year").textContent = new Date().getFullYear();
   if (S.whatsapp) $("#wa").href = "https://wa.me/" + String(S.whatsapp).replace(/\D/g, "") + "?text=" + encodeURIComponent("Assalamu alaikum Gen1, I saw your videos and I'd like to discuss a project.");
