@@ -1,6 +1,6 @@
 /* Mobile apps page: contact links, menu, reveal animation, and the My Salah images.
    The app icon and screenshots appear automatically once they are uploaded to assets/:
-   my-salah-icon.png, then my-salah-screen-1.jpg, my-salah-screen-2.jpg ... (up to 12). */
+   my-salah-icon.png, then my-salah-screen-1.jpg, my-salah-screen-2.jpg ... (up to 12), all in the assets folder. */
 (function(){
   "use strict";
   var $ = function(s, r){ return (r || document).querySelector(s); };
