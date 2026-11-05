@@ -3,22 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Mobile Apps by Gen1 Solutions | My Salah for Android</title>
-<meta name="description" content="Mobile apps designed, built and published by Gen1 Solutions, including My Salah, a free prayer times app for Android with full adhan, Qibla and mosque jamaat times.">
+<title>Mobile Apps by Gen1 Solutions | My Salah and Walletly</title>
+<meta name="description" content="Mobile apps designed and built by Gen1 Solutions: My Salah, a free prayer times app for Android, and Walletly, a private expense tracker built for Pakistan.">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="https://www.gen1sol.com/mobile-apps">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Gen1 Solutions">
 <meta property="og:url" content="https://www.gen1sol.com/mobile-apps">
-<meta property="og:title" content="Mobile Apps by Gen1 Solutions | My Salah for Android">
-<meta property="og:description" content="My Salah: a free, private prayer times app for Android with full adhan, Qibla, mosque jamaat times and home screen widgets.">
+<meta property="og:title" content="Mobile Apps by Gen1 Solutions | My Salah and Walletly">
+<meta property="og:description" content="My Salah, a free prayer times app, and Walletly, a private expense tracker. Two Android apps designed and built by Gen1 Solutions.">
 <meta property="og:image" content="https://www.gen1sol.com/assets/my-salah-og.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Mobile Apps by Gen1 Solutions | My Salah for Android">
-<meta name="twitter:description" content="My Salah: a free, private prayer times app for Android with full adhan, Qibla, mosque jamaat times and home screen widgets.">
+<meta name="twitter:title" content="Mobile Apps by Gen1 Solutions | My Salah and Walletly">
+<meta name="twitter:description" content="My Salah, a free prayer times app, and Walletly, a private expense tracker. Two Android apps designed and built by Gen1 Solutions.">
 <meta name="twitter:image" content="https://www.gen1sol.com/assets/my-salah-og.jpg">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Gen1 Solutions mobile apps","url":"https://www.gen1sol.com/mobile-apps","isPartOf":{"@id":"https://www.gen1sol.com/#org"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"MobileApplication","name":"My Salah","operatingSystem":"ANDROID","applicationCategory":"LifestyleApplication","description":"Free prayer times app with full adhan, Qibla compass, mosque jamaat times, home screen widgets and a prayer tracker. No account, no ads, no tracking.","url":"https://www.gen1sol.com/mobile-apps","downloadUrl":"https://play.google.com/store/apps/details?id=com.gen1solutions.salah","installUrl":"https://play.google.com/store/apps/details?id=com.gen1solutions.salah","image":"https://www.gen1sol.com/assets/my-salah-og.jpg","screenshot":["https://www.gen1sol.com/assets/my-salah-screen-1.jpg","https://www.gen1sol.com/assets/my-salah-screen-2.jpg","https://www.gen1sol.com/assets/my-salah-screen-3.jpg","https://www.gen1sol.com/assets/my-salah-screen-4.jpg","https://www.gen1sol.com/assets/my-salah-screen-5.jpg","https://www.gen1sol.com/assets/my-salah-screen-6.jpg","https://www.gen1sol.com/assets/my-salah-screen-7.jpg","https://www.gen1sol.com/assets/my-salah-screen-8.jpg"],"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@id":"https://www.gen1sol.com/#org"},"publisher":{"@id":"https://www.gen1sol.com/#org"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"MobileApplication","name":"Walletly Expense Tracker","operatingSystem":"ANDROID","applicationCategory":"FinanceApplication","description":"A bold, private expense tracker for Android, built for everyday life in Pakistan. Track income and spending, see where your money goes, and keep your data on your own phone. No account needed.","url":"https://www.gen1sol.com/mobile-apps","author":{"@id":"https://www.gen1sol.com/#org"},"publisher":{"@id":"https://www.gen1sol.com/#org"}}</script>
 <meta name="theme-color" content="#000000">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23CC0001'/><path d='M44 26h16v50H46V40h-8z' fill='%23fff'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -93,6 +94,55 @@
   .app-visual{min-height:380px;order:-1;padding-bottom:0}
   .app-qr{display:none}
 }
+
+/* ===== Walletly: the app's dark design with its lime accent ===== */
+.app-jump{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;max-width:1240px;margin:0 auto 1.4rem}
+.app-jump a{display:inline-flex;align-items:center;gap:.5rem;padding:.55rem 1.1rem;border-radius:999px;border:1px solid rgba(255,255,255,.22);color:#fff;font-size:.88rem;font-weight:600;text-decoration:none;transition:background .25s,border-color .25s,color .25s}
+.app-jump a:hover{background:#fff;color:#000}
+.app-jump em{font-style:normal;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;opacity:.65}
+.wl{--lime:#C9F24D;--limeink:#10150a;--paper:#F2F6E4}
+.wl-card{background:radial-gradient(120% 90% at 85% 8%,#2a3a0c 0%,#141b09 52%,#080a05 100%);color:var(--paper);box-shadow:0 60px 120px rgba(0,0,0,.55),0 0 0 1px rgba(201,242,77,.3)}
+.wl-card::before{background:radial-gradient(rgba(201,242,77,.2) 1.2px,transparent 1.5px) 0 0/22px 22px;-webkit-mask-image:linear-gradient(90deg,transparent 10%,#000 90%);mask-image:linear-gradient(90deg,transparent 10%,#000 90%)}
+.wl .app-kick{color:var(--lime);border-color:rgba(201,242,77,.4)}
+.wl .app-kick::before{background:#ffb020;box-shadow:0 0 0 4px rgba(255,176,32,.22);animation:none}
+.wl .app-name{color:var(--paper)}
+.wl .app-tag{color:var(--lime)}
+.app-lead{margin:0 0 .9rem;font-size:clamp(1.05rem,1.8vw,1.3rem);font-weight:600;line-height:1.45;color:var(--paper);max-width:34ch}
+.wl .app-desc{color:rgba(242,246,228,.78)}
+.wl .app-facts li{background:rgba(242,246,228,.07);border-color:rgba(201,242,77,.22)}
+.wl-btn{display:inline-flex;align-items:center;padding:1rem 1.8rem;border-radius:999px;background:var(--lime);color:var(--limeink);font-weight:700;text-decoration:none;box-shadow:0 14px 34px rgba(201,242,77,.22);transition:transform .25s,box-shadow .25s}
+.wl-btn:hover{transform:translateY(-3px);box-shadow:0 20px 44px rgba(201,242,77,.34)}
+.wl .app-ghost{border-color:rgba(242,246,228,.4);color:var(--paper)}
+.wl .app-ghost:hover{background:var(--paper);color:var(--limeink)}
+.wl-note{margin:1.4rem 0 0;max-width:46ch;font-size:.85rem;line-height:1.6;color:#aab68a}
+.wl-tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:min(400px,100%)}
+.wl-tile{padding:1.3rem 1.15rem;border-radius:22px;background:rgba(255,255,255,.05);border:1px solid rgba(201,242,77,.3)}
+.wl-tile b{display:block;font-size:clamp(1.5rem,2.6vw,2rem);font-weight:800;letter-spacing:-.04em;line-height:1.05;color:var(--lime)}
+.wl-tile span{display:block;margin-top:.5rem;font-size:.8rem;line-height:1.45;color:#cdd7b2}
+.app-visual.has-shots .wl-tiles{display:none}
+.wl .fico{background:linear-gradient(145deg,#2c3f0d,#141b09);border-color:rgba(201,242,77,.45)}
+.wl .fico svg{stroke:#C9F24D}
+.wl .fcard:hover{border-color:rgba(201,242,77,.7);background:rgba(201,242,77,.06)}
+.wl-private{background:linear-gradient(135deg,#C9F24D,#a9d92f);color:#10150a}
+.wl-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:16px;max-width:1240px;margin:0 auto}
+.wl-group{padding:1.5rem;border-radius:22px;background:rgba(255,255,255,.045);border:1px solid rgba(201,242,77,.22)}
+.wl-group h3{margin:0 0 .5rem;font-size:1.05rem;font-weight:700;color:#C9F24D}
+.wl-group p{margin:0;color:#c3c9b0;font-size:.92rem;line-height:1.65}
+.wl-two{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:1240px;margin:16px auto 0}
+.wl-box{padding:1.6rem 1.5rem;border-radius:22px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1)}
+.wl-box h3{margin:0 0 .8rem;font-size:1.05rem;font-weight:700}
+.wl-box ul{margin:0;padding-left:1.1rem;color:#c3c9b0;font-size:.92rem;line-height:1.75}
+.wl-faq{max-width:1240px;margin:clamp(1.6rem,3vw,2.4rem) auto 0}
+.wl-faq h3{margin:0 0 .9rem;font-size:1.3rem;font-weight:700;letter-spacing:-.02em}
+.wl-q{border-top:1px solid rgba(255,255,255,.12);padding:1rem 0}
+.wl-q:last-child{border-bottom:1px solid rgba(255,255,255,.12)}
+.wl-q summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:1rem}
+.wl-q summary::-webkit-details-marker{display:none}
+.wl-q summary::after{content:"+";color:#C9F24D;font-size:1.3rem;line-height:1}
+.wl-q[open] summary::after{content:"−"}
+.wl-q p{margin:.7rem 0 0;color:#c3c9b0;line-height:1.7;max-width:70ch}
+#wScreens[hidden],[data-w-icon][hidden]{display:none}
+@media (max-width:900px){.wl-two{grid-template-columns:1fr}}
 </style>
 <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
 </head>
@@ -124,19 +174,20 @@
     <div class="whero-inner">
       <h1 class="whero-title"><span class="ln"><span>Mobile</span></span><span class="ln"><span>apps<b>.</b></span></span></h1>
       <div class="whero-side">
-        <p>Apps we have designed, built and published ourselves. Real products, on real phones.</p>
+        <p>Apps we have designed and built ourselves. Real products, on real phones.</p>
         <div class="whero-stats">
-          <div><strong>1</strong><span>app live on Google Play</span></div>
-          <div><strong>Free</strong><span>to download</span></div>
-          <div><strong>0</strong><span>ads or trackers</span></div>
+          <div><strong>2</strong><span>apps built in-house</span></div>
+          <div><strong>1</strong><span>live on Google Play</span></div>
+          <div><strong>0</strong><span>accounts to create</span></div>
         </div>
       </div>
     </div>
-    <div class="ticker" aria-hidden="true"><div class="ticker-track"><span>Android apps</span><span>Built in-house</span><span>Google Play</span><span>Privacy first</span><span>Free to download</span><span>Android apps</span><span>Built in-house</span><span>Google Play</span><span>Privacy first</span><span>Free to download</span><span>Android apps</span><span>Built in-house</span><span>Google Play</span><span>Privacy first</span><span>Free to download</span><span>Android apps</span><span>Built in-house</span><span>Google Play</span><span>Privacy first</span><span>Free to download</span></div></div>
+    <div class="ticker" aria-hidden="true"><div class="ticker-track"><span>Android apps</span><span>Built in-house</span><span>Google Play</span><span>Privacy first</span><span>No sign-up</span><span>Android apps</span><span>Built in-house</span><span>Google Play</span><span>Privacy first</span><span>No sign-up</span><span>Android apps</span><span>Built in-house</span><span>Google Play</span><span>Privacy first</span><span>No sign-up</span><span>Android apps</span><span>Built in-house</span><span>Google Play</span><span>Privacy first</span><span>No sign-up</span></div></div>
   </section>
 
   <!-- MY SALAH -->
   <section class="wsec wsec-black app-sec" id="my-salah">
+    <nav class="app-jump" aria-label="Apps on this page"><a href="#my-salah">My Salah</a><a href="#walletly">Walletly <em>in testing</em></a></nav>
     <article class="app-card reveal">
       <div class="app-info">
         <div class="app-head"><img class="app-ico" data-app-icon alt="My Salah app icon" hidden width="64" height="64"><span class="app-kick">Live on Google Play</span></div>
@@ -210,6 +261,103 @@
     <div class="shots">
       <div class="shots-track" id="shotsTrack"></div>
       <div class="shots-nav"><button type="button" id="shotPrev" aria-label="Previous screenshots">&#8592;</button><button type="button" id="shotNext" aria-label="Next screenshots">&#8594;</button></div>
+    </div>
+  </section>
+
+  <!-- WALLETLY -->
+  <section class="wsec wsec-black app-sec wl" id="walletly">
+    <article class="app-card wl-card reveal">
+      <div class="app-info">
+        <div class="app-head"><img class="app-ico" data-w-icon alt="Walletly app icon" hidden width="64" height="64"><span class="app-kick">In closed testing</span></div>
+        <h2 class="app-name">Walletly</h2>
+        <p class="app-tag">Expense Tracker</p>
+        <p class="app-lead">A bold, private money tracker for Android, built for everyday life in Pakistan.</p>
+        <p class="app-desc">Record what you earn and spend in a few taps, see exactly where your money goes, and keep everything on your own phone. No sign-up and no account to create. Most expense apps are either too complicated to keep up, or want your financial life on a server. Walletly does one job well: you log a transaction in seconds, and it turns into a clear picture of your month. PKR is the default currency, and Pakistani banks and mobile wallets are built in.</p>
+        <ul class="app-facts" aria-label="App details">
+          <li>Android</li><li>No account needed</li><li>Private by design</li><li>PKR by default</li>
+        </ul>
+        <div class="app-actions">
+          <a class="wl-btn" id="wTest" href="#" target="_blank" rel="noopener">Help test it</a>
+          <a class="app-ghost" href="#wl-features">See the features</a>
+        </div>
+        <p class="wl-note">Walletly is in closed testing on Google Play. Would you like to help test it? Message us and we will add you.</p>
+      </div>
+      <div class="app-visual" id="wVisual">
+        <div class="wl-tiles">
+          <div class="wl-tile"><b>PKR</b><span>Default currency, with USD, GBP, EUR, AED and SAR too</span></div>
+          <div class="wl-tile"><b>6</b><span>Accent colours on an easy-on-the-eyes dark design</span></div>
+          <div class="wl-tile"><b>Lock</b><span>PIN, fingerprint or face unlock</span></div>
+          <div class="wl-tile"><b>Backup</b><span>One file you can keep anywhere</span></div>
+        </div>
+        <div class="fan" id="wFan" aria-hidden="true"></div>
+      </div>
+    </article>
+  </section>
+
+  <section class="wsec wsec-black wl" id="wl-features" style="padding-top:0">
+    <div class="wsec-head light reveal">
+      <h2 class="sec-title">Log it. See it. Keep it private.</h2>
+      <p class="sec-text">Everything Walletly does, and nothing it doesn't: a fast way to record your money, a clear view of where it goes, and your data staying on your own phone.</p>
+    </div>
+    <div class="fgrid">
+      <article class="fcard reveal"><span class="fico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg></span><h3>Log spending in seconds</h3><p>A large amount field with its own number keypad, so you never fight the phone keyboard. Pick expense or income, choose a category and an account, and save. Home updates straight away.</p></article>
+      <article class="fcard reveal"><span class="fico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 012-2h13v4M3 7v10a2 2 0 002 2h15V9H5a2 2 0 01-2-2zM16 14h2"/></svg></span><h3>Your month at a glance</h3><p>Home shows your balance for the month, with income and spending shown separately, plus your latest transactions. Income gets a plus sign and spending a minus sign, so you can read it without relying on colour.</p></article>
+      <article class="fcard reveal"><span class="fico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></span><h3>Full history</h3><p>Move month by month, filter by All, Expense or Income, and see every day's entries grouped with a daily total.</p></article>
+      <article class="fcard reveal"><span class="fico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v9h9a9 9 0 11-9-9z"/><path d="M15 3.5A9 9 0 0120.5 9H15z"/></svg></span><h3>Insights</h3><p>Total spending for the month, a category-by-category breakdown, and a six-month comparison so you can tell if this month is higher or lower than usual.</p></article>
+      <article class="fcard reveal"><span class="fico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18"/></svg></span><h3>Every account in one place</h3><p>Cash is ready from the start. Add accounts from a searchable list of Pakistani banks, mobile wallets and international services, each with its own opening balance and an optional last 4 digits to tell cards apart.</p></article>
+      <article class="fcard reveal"><span class="fico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M14.5 9.5c-.5-1-1.5-1.5-2.5-1.5-1.5 0-2.5.8-2.5 2s1 1.6 2.5 2 2.5.8 2.5 2-1 2-2.5 2c-1 0-2-.5-2.5-1.5M12 6v2M12 16v2"/></svg></span><h3>Work in your currency</h3><p>PKR by default, with USD, GBP, EUR, AED, SAR and more. Foreign-currency accounts show the converted amount in your main currency. Rates update daily and are saved on your phone, so it works offline, and each transaction remembers the rate it was entered at.</p></article>
+      <article class="fcard reveal"><span class="fico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 17v-6a6 6 0 1112 0v6l1.5 2h-15L6 17zM10 21h4"/></svg></span><h3>Daily reminders</h3><p>Pick a time and get a daily nudge to log your expenses.</p></article>
+      <article class="fcard reveal"><span class="fico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg></span><h3>Make it yours</h3><p>Six accent colours, your name on the home screen, and smooth, subtle animations when you save, in the Poppins typeface on a dark design that is easy on the eyes.</p></article>
+      <article class="fcard reveal"><span class="fico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 118 0v3"/></svg></span><h3>App lock</h3><p>Protect the app with a PIN, with fingerprint or face unlock on top. The PIN is stored in scrambled form on your device, and repeated wrong tries trigger increasing waiting times.</p></article>
+      <article class="fcard reveal"><span class="fico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M10.6 6.2A9.8 9.8 0 0112 6c5 0 8.5 4 9.5 6a14 14 0 01-2.6 3.4M6.4 7.4A14 14 0 002.5 12c1 2 4.5 6 9.5 6 1.3 0 2.5-.3 3.6-.8M9.9 9.9a3 3 0 004.2 4.2"/></svg></span><h3>Hide amounts</h3><p>One tap on the eye icon masks every amount, handy in public. The app remembers your choice.</p></article>
+      <article class="fcard reveal"><span class="fico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5M4 20h16"/></svg></span><h3>Backup and restore</h3><p>Export everything to a single file and save it to Google Drive, send it to yourself or keep it anywhere. Restore checks the file, shows what it contains and asks you to confirm before replacing anything. Backups from older versions still work.</p></article>
+      <article class="fcard reveal"><span class="fico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h3"/></svg></span><h3>Last 4 digits only</h3><p>The app never stores full card or account numbers. It keeps only the last 4 digits and cuts anything longer before saving.</p></article>
+    </div>
+    <div class="app-private wl-private reveal">
+      <h3>Your data stays on your phone.</h3>
+      <p>No accounts and no sign-in. Only exchange rates go online, and no personal or financial data is sent when the app fetches them.</p>
+    </div>
+  </section>
+
+  <section class="wsec wsec-black wl" style="padding-top:0">
+    <div class="wsec-head light reveal">
+      <h2 class="sec-title">Banks, wallets and more, built in.</h2>
+      <p class="sec-text">Cash is ready from the start. Add the rest from a searchable list, each with its own opening balance.</p>
+    </div>
+    <div class="wl-groups">
+      <div class="wl-group reveal"><h3>Banks</h3><p>HBL, UBL, MCB, Allied Bank, Bank Alfalah, Meezan Bank, Faysal Bank, Askari Bank, Standard Chartered, JS Bank and more</p></div>
+      <div class="wl-group reveal"><h3>Mobile wallets</h3><p>Easypaisa, JazzCash, SadaPay, NayaPay</p></div>
+      <div class="wl-group reveal"><h3>International</h3><p>Payoneer, PayPal, Wise, Nsave</p></div>
+      <div class="wl-group reveal"><h3>Custom</h3><p>Type any name you like</p></div>
+    </div>
+    <div class="wl-two">
+      <div class="wl-box reveal">
+        <h3>Coming soon</h3>
+        <ul><li>Budgets for each category and savings goals</li><li>Automatic Google Drive sync</li><li>Home screen widgets</li></ul>
+      </div>
+      <div class="wl-box reveal">
+        <h3>Requirements</h3>
+        <ul><li>An Android phone</li><li>Notification permission is optional, and only needed for daily reminders</li><li>Fingerprint or face unlock is optional</li></ul>
+      </div>
+    </div>
+    <div class="wl-faq reveal">
+      <h3>Questions</h3>
+      <details class="wl-q"><summary>Do I need to create an account?</summary><p>No. Open the app and start logging.</p></details>
+      <details class="wl-q"><summary>Is my financial data uploaded anywhere?</summary><p>No. It is stored on your phone. The only thing the app fetches from the internet is currency exchange rates.</p></details>
+      <details class="wl-q"><summary>What happens if I lose my phone?</summary><p>Export a backup regularly and save it to Google Drive or send it to yourself. You can restore it on a new phone.</p></details>
+      <details class="wl-q"><summary>Does it use real bank logos?</summary><p>No. Accounts show a coloured tile with the bank's initials.</p></details>
+    </div>
+  </section>
+
+  <!-- WALLETLY SCREENSHOTS (appear automatically once screenshots are uploaded) -->
+  <section class="wsec wsec-black wl" id="wScreens" hidden style="padding-top:0">
+    <div class="wsec-head light reveal">
+      <h2 class="sec-title">See it in action.</h2>
+      <p class="sec-text">A look inside Walletly.</p>
+    </div>
+    <div class="shots">
+      <div class="shots-track" id="wTrack"></div>
+      <div class="shots-nav"><button type="button" id="wPrev" aria-label="Previous screenshots">&#8592;</button><button type="button" id="wNext" aria-label="Next screenshots">&#8594;</button></div>
     </div>
   </section>
 
