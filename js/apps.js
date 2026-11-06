@@ -96,6 +96,15 @@
   setupApp({
     name: "Walletly", base: "assets/walletly-", icon: "[data-w-icon]",
     visual: "#wVisual", fan: "#wFan", screens: "#wScreens", track: "#wTrack", prev: "#wPrev", next: "#wNext",
-    pick: [0, 1, 2], alts: []
+    pick: [0, 1, 2],
+    alts: [
+      "Walletly home screen with your balance, monthly budget, net worth and accounts",
+      "Adding a transaction by typing, voice or receipt scan, with a built-in calculator keypad",
+      "Monthly report with income versus spending and top categories",
+      "Savings goals with progress bars and the monthly amount needed",
+      "Net worth chart across accounts, loans, gold and assets",
+      "Gold and silver valued at daily rates in grams, ounces or tola",
+      "Home screen widgets for adding expenses, income and voice entries in one tap"
+    ]
   });
 })();
