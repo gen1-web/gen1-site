@@ -43,14 +43,29 @@
   /* ---------- Hero: 3D design wall ---------- */
   var wall = $("#wall");
   if (wall && D.length) {
-    for (var c = 0; c < 5; c++) {
+    /* Five columns on desktop (the fifth is hidden on phones, so phones only build four) */
+    var wallCols = window.matchMedia("(min-width:1001px)").matches ? 5 : 4;
+    /* A column fades in and starts moving only once all its posters have loaded, so it never grows or jumps while it scrolls */
+    var revealWhenLoaded = function(col){
+      var imgs = [].slice.call(col.querySelectorAll("img")), left = imgs.length, done = false;
+      var go = function(){ if (done) return; done = true; col.classList.add("ready"); };
+      var one = function(){ if (--left <= 0) go(); };
+      imgs.forEach(function(im){
+        if (im.complete) one();
+        else { im.addEventListener("load", one, { once: true }); im.addEventListener("error", one, { once: true }); }
+      });
+      setTimeout(go, 8000); /* never wait forever if one poster is slow */
+    };
+    for (var c = 0; c < wallCols; c++) {
       var col = document.createElement("div");
       col.className = "col" + (c % 2 ? " down" : "");
       col.style.setProperty("--t", (55 + c * 9) + "s");
-      var pick = D.filter(function(_, i){ return i % 5 === c; });
-      var html = pick.map(function(d){ return '<img src="' + DIR + d.src + '" alt="" loading="' + (c < 2 ? "eager" : "lazy") + '" decoding="async">'; }).join("");
+      var pick = D.filter(function(_, i){ return i % wallCols === c; });
+      if (wallCols === 4) pick = pick.slice(0, 9); /* phones show a short strip, so they only need a few posters per column */
+      var html = pick.map(function(d){ return '<img src="' + DIR + d.src + '" alt="" decoding="async"' + (c > 1 ? ' fetchpriority="low"' : '') + '>'; }).join("");
       col.innerHTML = html + html; // doubled for a seamless loop
       wall.append(col);
+      revealWhenLoaded(col);
     }
   }
 
