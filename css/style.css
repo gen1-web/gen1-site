@@ -669,3 +669,11 @@ section.tst{padding-top:clamp(3rem,5vw,4.5rem)}
 .sec-head-mq .sec-text{max-width:42ch;margin:1.2rem 0 0 max(var(--pad),calc(50% - 640px + var(--pad)))}
 @keyframes mqL{to{transform:translateX(-50%)}}
 @media (prefers-reduced-motion:reduce){.mq-track{animation:none}}
+
+/* ===== Hero poster wall: a column fades in and starts moving only once its posters have loaded (no late pop-in, no jumping) ===== */
+.wall .col{opacity:0;animation-play-state:paused;transition:opacity .8s ease}
+.wall .col.ready{opacity:1;animation-play-state:running}
+/* Each column is exactly as tall as its own posters, and spacing sits on the posters (not as a gap), so every loop lines up and nothing jumps when it restarts */
+.wall-tilt{align-items:start}
+.col{gap:0}
+.col img{margin-bottom:16px}
