@@ -662,10 +662,9 @@ section.tst{padding-top:clamp(3rem,5vw,4.5rem)}
 .mq-sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .mq{overflow:hidden;white-space:nowrap;line-height:1.05;padding:.02em 0 .08em}
 .mq-track{display:inline-flex;align-items:center;width:max-content;font-size:clamp(3.6rem,11vw,10.5rem);animation:mqL 75s linear infinite;will-change:transform}
-.mq:hover .mq-track{animation-play-state:paused}
-.mq-item{font-weight:800;letter-spacing:-.05em;color:var(--char,#111)}
+.mq-item{font-weight:800;letter-spacing:-.05em;color:var(--char,#111);padding-right:1em}
 .mq-item b{color:var(--red)}
-.mq-dot{flex:none;width:.2em;height:.2em;margin:0 .5em;border-radius:50%;background:var(--red)}
+.mq-dot{display:none}
 .sec-head-mq .sec-text{max-width:42ch;margin:1.2rem 0 0 max(var(--pad),calc(50% - 640px + var(--pad)))}
 @keyframes mqL{to{transform:translateX(-50%)}}
 @media (prefers-reduced-motion:reduce){.mq-track{animation:none}}
