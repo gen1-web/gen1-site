@@ -24,7 +24,7 @@
     ".bk button[type=submit]:hover{transform:translateY(-2px);box-shadow:0 18px 40px rgba(204,0,1,.45)}.bk button[disabled]{opacity:.6;cursor:wait}" +
     ".bk .note{grid-column:1/-1;font-size:.8rem;color:#888;margin:0}.bk .note a{color:#CC0001}" +
     ".bk .ok{display:none;text-align:center;padding:2rem 0}.bk.sent form,.bk.sent .bk-tabs{display:none}.bk.sent .ok{display:block}" +
-    ".bk .ok b{display:block;font-size:1.6rem;margin-bottom:.4rem}.bk .err{grid-column:1/-1;color:#CC0001;font-size:.88rem;margin:0;display:none}" +
+    ".bk .ok b{display:block;font-size:1.6rem;margin-bottom:.4rem}.bk .err{grid-column:1/-1;color:#CC0001;font-size:.88rem;margin:0;display:none}.bk .err a{color:#CC0001;font-weight:600;text-decoration:underline}" +
     ".bk .cal{display:none;height:680px;border-radius:16px;overflow:hidden}.bk.cal-on .cal{display:block}.bk.cal-on form{display:none}" +
     "@media (max-width:640px){.bk form{grid-template-columns:1fr}}";
   document.head.appendChild(st);
@@ -50,18 +50,47 @@
     '<div class="ok" role="status"><b>Thank you, we have your request.</b>We will be in touch shortly, in sha Allah.</div>';
   sec.appendChild(box);
   var form = box.querySelector("form"), err = box.querySelector(".err"), btn = form.querySelector("button[type=submit]");
+  var WA = "923054559888";
+  var AUTO = "Assalamu alaikum, thank you for contacting Gen1 Solutions. We have your request and will confirm a time on WhatsApp or email, usually the same day. Gen1 Solutions, www.gen1sol.com";
+  var merge = function(a, b){ for (var k in b) if (Object.prototype.hasOwnProperty.call(b, k)) a[k] = b[k]; return a; };
+  /* Where the visitor came from, so every lead shows which page and campaign it started on */
+  var context = function(){
+    var q = new URLSearchParams(location.search), t = { page: location.href.split("#")[0], referrer: document.referrer || "" };
+    ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"].forEach(function(k){ if (q.get(k)) t[k] = q.get(k); });
+    return t;
+  };
+  /* If sending fails, the visitor can send exactly what they typed on WhatsApp with one tap */
+  var waLink = function(d){
+    var txt = "Assalamu alaikum Gen1, I'd like to book a meeting.\n\nName: " + d.name + (d.organisation ? "\nOrganisation: " + d.organisation : "") + (d.services ? "\nNeed: " + d.services : "") + "\n\n" + d.message;
+    return "https://wa.me/" + WA + "?text=" + encodeURIComponent(txt.slice(0, 1500));
+  };
+  var post = function(url, data, ms){
+    var ac = ("AbortController" in window) ? new AbortController() : null, timer = ac ? setTimeout(function(){ ac.abort(); }, ms) : null;
+    return fetch(url, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" }, body: JSON.stringify(data), signal: ac ? ac.signal : undefined })
+      .then(function(r){ if (timer) clearTimeout(timer); return r; }, function(x){ if (timer) clearTimeout(timer); throw x; });
+  };
   form.addEventListener("submit", function(e){
     e.preventDefault(); err.style.display = "none";
-    var fd = new FormData(form);
+    var fd = new FormData(form), phone = String(fd.get("whatsapp") || "").trim();
     if (!fd.get("name") || !/^\S+@\S+\.\S+$/.test(fd.get("email") || "") || !fd.get("message")) { err.textContent = "Please add your name, a valid email and a few words about your project."; err.style.display = "block"; return; }
-    if (fd.get("_honey")) return;
-    var data = { name: fd.get("name"), organisation: fd.get("organisation"), email: fd.get("email"), whatsapp: fd.get("whatsapp"), services: fd.getAll("services").join(", "), preferred_day: fd.get("preferred_day"), preferred_time: fd.get("preferred_time"), message: fd.get("message"),
-      _subject: "New meeting request: " + fd.get("name") + (fd.get("organisation") ? " (" + fd.get("organisation") + ")" : ""), _replyto: fd.get("email"), _template: "table", _captcha: "false" };
+    if (phone && !/^[+()\d\s-]{7,20}$/.test(phone)) { err.textContent = "Please check your WhatsApp number, or leave it blank."; err.style.display = "block"; return; }
+    if (fd.get("_honey")) { box.classList.add("sent"); return; } /* a bot filled the hidden field: look successful, send nothing */
+    var data = merge({ name: fd.get("name"), organisation: fd.get("organisation"), email: fd.get("email"), whatsapp: phone, services: fd.getAll("services").join(", "), preferred_day: fd.get("preferred_day"), preferred_time: fd.get("preferred_time"), message: fd.get("message"), _honey: "" }, context());
     btn.disabled = true; btn.textContent = "Sending...";
-    fetch("https://formsubmit.co/ajax/" + TO, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" }, body: JSON.stringify(data) })
-      .then(function(r){ return r.json(); })
-      .then(function(j){ if (j && (j.success === true || j.success === "true")) { box.classList.add("sent"); } else { throw new Error(j && j.message || "failed"); } })
-      .catch(function(){ err.innerHTML = 'Sorry, that did not send. Please message us on <a href="https://wa.me/923054559888" target="_blank" rel="noopener">WhatsApp</a> or email <a href="mailto:' + TO + '">' + TO + '</a>.'; err.style.display = "block"; btn.disabled = false; btn.textContent = "Request my meeting"; });
+    /* 1) our own secure endpoint (active once the email key is added), 2) FormSubmit as the backup */
+    post("/api/lead", data, 12000)
+      .then(function(r){ if (!r.ok) throw new Error("api"); return r.json(); })
+      .then(function(j){ if (!(j && j.success === true)) throw new Error("api"); })
+      .catch(function(){
+        return post("https://formsubmit.co/ajax/" + TO, merge({ _subject: "New meeting request: " + data.name + (data.organisation ? " (" + data.organisation + ")" : ""), _replyto: data.email, _template: "table", _captcha: "false", _autoresponse: AUTO }, data), 15000)
+          .then(function(r){ return r.json(); })
+          .then(function(j){ if (!(j && (j.success === true || j.success === "true"))) throw new Error((j && j.message) || "failed"); });
+      })
+      .then(function(){ box.classList.add("sent"); })
+      .catch(function(){
+        err.innerHTML = 'Sorry, that did not send. <a href="' + waLink(data) + '" target="_blank" rel="noopener">Send it on WhatsApp instead</a> (your details are filled in), or email <a href="mailto:' + TO + '">' + TO + '</a>.';
+        err.style.display = "block"; btn.disabled = false; btn.textContent = "Request my meeting";
+      });
   });
   if (CALENDLY) {
     var loaded = false;
